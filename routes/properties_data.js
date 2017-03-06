@@ -28,7 +28,6 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 		//Error 400: Bad request
 		responseManager.errorReponse(res, 400, errors);
 	} else {
-		//Pasar datos del filtro por parámetros
 		PropertyData.findPropertyData(
 			propertyId, channels, fromMonth, fromYear, toMonth, toYear, 
 			function (err, property_data) {
@@ -43,13 +42,10 @@ router.post('/update', authManager.ensureAuthenticated, function(req, res){
 	var channel = req.body.channel;
 	var year = req.body.year;
 	var months = req.body.months;
-	//console.log(JSON.stringify(req.body));
 	PropertyData.updateData(property, channel, year, months,
-		function(result){
-			console.log(JSON.stringify("result:"+result));
-			res.send(result);
+		function(err, property_data){
+			responseManager.checkAndReponse(err, res, property_data);
 		});
-	//res.send(req.body);
 });
 
 module.exports = router;

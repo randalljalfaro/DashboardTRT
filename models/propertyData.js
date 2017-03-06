@@ -161,6 +161,11 @@ module.exports.findPropertyData = function(
 
 module.exports.updateData = function(property, channel, year, months, cb){
 	var monthsData = [];
+	var query = {
+		property: new ObjectIdConst(property),
+		channel: new ObjectIdConst(channel), 
+		year: parseInt(year)
+	};
 	for(var i in months){
 		var m = months[i];
 		//validar campos, por ahora se da por sentado que vienen bien
@@ -170,13 +175,14 @@ module.exports.updateData = function(property, channel, year, months, cb){
 			amount : parseInt(m.amount),
 		});
 	}
-	PropertyData.update({
-		property: new ObjectIdConst(property),
-		channel: new ObjectIdConst(channel), 
-		year: parseInt(year)
-	},
-	{
-		months: monthsData
-	}, cb);
+	PropertyData.find(query, function(err, property_data){
+		if(property_data)
+			PropertyData.update(query, {months: monthsData}, cb);
+		else{
+			query.months = monthsData;
+			var newData = new PropertyData(query);
+			newData.save(cb);
+		}
+	});
 
 }

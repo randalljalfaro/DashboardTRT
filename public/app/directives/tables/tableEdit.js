@@ -51,9 +51,8 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
         reqHandlers.properties_data.update(
           data, 
           function(response){
-            alert("Guardado exitoso.");
             $scope.reloadData($scope.propertySelected);
-            //alert(JSON.stringify(response, null, 2));
+            alert("Guardado exitoso.");
           }, 
           function(){
             alert("Error al actualizar los datos, contacte al administrador.");
