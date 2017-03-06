@@ -1,6 +1,7 @@
 app.factory('userRoles', ["$rootScope","requestHandlers", function($rootScope, reqHandlers) {
 	function setCurrentUser(userData){
 		function setRoles(user){
+			$rootScope.user = user;
 			var rolesType = {};
 			for(var indexR in user.roles){
 				var role = user.roles[indexR];
@@ -14,8 +15,7 @@ app.factory('userRoles', ["$rootScope","requestHandlers", function($rootScope, r
 			reqHandlers.users.getCurrent(
 				function(response){
 					if(response.data){
-						$rootScope.user = response.data;
-						setRoles($rootScope.user);
+						setRoles(response.data);
 					}
 				}, function(){});
 		}
