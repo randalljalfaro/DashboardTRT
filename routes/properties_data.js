@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var Channel = require('../models/channel');
 var Property = require('../models/property');
+var Channel = require('../models/channel');
+var PropertyData = require('../models/propertyData');
 var authManager = require('../util/authenticationManager');
 var responseManager = require('../util/responseManager');
 
@@ -26,7 +29,7 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 		responseManager.errorReponse(res, 400, errors);
 	} else {
 		//Pasar datos del filtro por parámetros
-		Property.findPropertyData(
+		PropertyData.findPropertyData(
 			propertyId, channels, fromMonth, fromYear, toMonth, toYear, 
 			function (err, property_data) {
 				responseManager.checkAndReponse(err, res, property_data);
@@ -40,8 +43,8 @@ router.post('/update', authManager.ensureAuthenticated, function(req, res){
 	var channel = req.body.channel;
 	var year = req.body.year;
 	var months = req.body.months;
-	console.log(JSON.stringify(req.body));
-	Property.updatePropertyData(property, channel, year, months,
+	//console.log(JSON.stringify(req.body));
+	PropertyData.updateData(property, channel, year, months,
 		function(result){
 			console.log(JSON.stringify("result:"+result));
 			res.send(result);

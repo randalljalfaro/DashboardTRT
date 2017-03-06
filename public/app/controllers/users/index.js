@@ -6,14 +6,22 @@ function UsersCtrl($scope, $http, $location, reqHandlers) {
 	reqHandlers.properties.get(
 		"admin",
 		function(response){
-		$scope.properties = {};
-		for(var p in response.data){
-			var prop = response.data[p];
-			$scope.properties[prop._id] = prop;
-		}
-	}, function(){
-		$scope.properties = {};
-	});
+			$scope.properties = {};
+			for(var p in response.data){
+				var prop = response.data[p];
+				$scope.properties[prop._id] = prop;
+			}
+		}, function(){
+			$scope.properties = {};
+		});
+
+	/*reqHandlers.properties_data.create(null,
+		function(response){
+			alert(JSON.stringify(response));
+		},
+		function(response){
+			alert(JSON.stringify(response));
+		});*/
 
 	//Pasar los callbacks al requestHandlers
 	//Si necesita el $scope se debe realizar algo ingenioso para pasar la referencia

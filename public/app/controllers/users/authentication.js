@@ -49,8 +49,12 @@ function LoginCtrl($scope, $auth, $location, userRoles) {
 			$location.path("/home");
 		})
 		.catch(function(response){
-			alert("Error al realizar el login");
-			alert(JSON.stringify(response));
+			if(response.data && response.data.info){
+				$scope.errors = response.data.info;
+			}else{
+				$scope.errors = [{msg:"Error al realizar el login, contacte al administrador."}];
+			}
+			//alert(JSON.stringify(response));
 			//$scope.errors = response.data.info;
 		});
 	}

@@ -31,8 +31,7 @@ router.post('/', authManager.ensureAuthenticated, function(req, res){
 		var newProperty = new Property({
 			name: name,
 			type:type,
-			channels: channels,
-			data : []
+			channels: channels
 		});
 
 		newProperty.save(function(err, property){

@@ -52,12 +52,13 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
           data, 
           function(response){
             alert("Guardado exitoso.");
-            alert(JSON.stringify(response, null, 2));
+            $scope.reloadData($scope.propertySelected);
+            //alert(JSON.stringify(response, null, 2));
           }, 
           function(){
-            alert("Error al actualizar los datos");
-          })
-        console.log(data);
+            alert("Error al actualizar los datos, contacte al administrador.");
+          });
+        //console.log(data);
       }
 
       function filterCallback(property_data, propertyId, channels){

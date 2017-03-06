@@ -8,8 +8,8 @@ app.factory('requestHandlers', function($http) {
 	}
 	function get_current_user(successCallback, errorCallback){
 		$http({
-			method: 'POST',
-			url: '/users/getCurrent'
+			method: 'GET',
+			url: '/users/current'
 		}).then(successCallback, errorCallback);
 	}
 	function delete_user(_id, successCallback, errorCallback){
@@ -64,6 +64,17 @@ app.factory('requestHandlers', function($http) {
 
 	//*****************************************************************
 	//Properties Data
+	function create_property_data(data, successCallback, errorCallback){
+		var req = {
+			method: 'POST',
+			url: '/properties_data/create',
+			headers: {
+				'Content-Type': "application/json"
+			},
+			data: data
+		}
+		$http(req).success(successCallback).error(errorCallback);
+	}
 	function get_properties_data(query, successCallback, errorCallback){
 		var req = {
 			method: 'POST',
@@ -107,7 +118,8 @@ app.factory('requestHandlers', function($http) {
 		},
 		properties_data: {
 			get : get_properties_data,
-			update: update_properties_data
+			update: update_properties_data,
+			create: create_property_data
 		}
 	};
 });

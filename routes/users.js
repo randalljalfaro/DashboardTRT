@@ -12,8 +12,7 @@ router.get('/', authManager.ensureAuthenticated, function(req, res){
 });
 
 //Todas peticiones solo las debería de poder hacer un admin de la plataforma
-router.post('/getCurrent', authManager.ensureAuthenticated, function(req, res){
-	console.log("USERID: "+req.userId);
+router.get('/current', authManager.ensureAuthenticated, function(req, res){
 	User.findOne({_id:req.userId}, {password:0},function(err, user) {
 		responseManager.checkAndReponse(err, res, user);
 	});
