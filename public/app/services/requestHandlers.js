@@ -8,7 +8,7 @@ app.factory('requestHandlers', function($http) {
 	}
 	function get_current_user(successCallback, errorCallback){
 		$http({
-			method: 'GET',
+			method: 'POST',
 			url: '/users/getCurrent'
 		}).then(successCallback, errorCallback);
 	}

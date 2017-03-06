@@ -13,39 +13,8 @@ var PropertySchema = mongoose.Schema({
 		type: String,
 		required : true
 	},
-	channels:[
-	{ type: ObjectId, ref: 'Channel' }
-	],
-	data : [
-	{
-		channel:{ type: ObjectId, ref: 'Channel' },
-		years: [
-		{
-			year : {
-				type: Number,
-				required : true
-			},
-			months : [
-			{
-				number : {
-					type: Number,
-					required : true
-				},
-				bedroom_count : {
-					type: Number,
-					default : 0
-				},
-				amount : {
-					type: Number,
-					default : 0
-				}
-			}
-			]
-		}
-		]
-	}
-	
-	]
+	channels:[{ type: ObjectId, ref: 'Channel' }],
+	data : [{ type: ObjectId, ref: 'PropertyData' }]
 });
 var Property = module.exports = mongoose.model('Property', PropertySchema);
 
