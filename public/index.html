@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Dashboard TRT</title>
+
+
+	<!-- Hojas de estilo -->
+	<link rel="stylesheet" href="/css/bootstrap.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="/css/main.css" />
+
+	<!-- Bibliotecas de código -->
+	<script src="/app/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="/app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/app/bower_components/angular/angular.min.js"></script>
+
+	<!-- Dependencias de la aplicación -->
+	<script src="/app/bower_components/chart.js/dist/Chart.bundle.min.js"></script>
+	<script src="/app/bower_components/chart.js/dist/Chart.min.js"></script>
+	<script src="/app/bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+	<script src="/app/bower_components/satellizer/dist/satellizer.min.js"></script>
+	<script src="/app/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+	<!-- Aplicación principal -->
+	<script src="/app/index.js"></script>
+	<script src="/app/config.js"></script>
+	<script src="/app/router.js"></script>
+
+	<!-- Servicios creados para encapsular funcionalidad-->
+	<script src="/app/services/requestHandlers.js"></script>
+	<script src="/app/services/chartDataFactory.js"></script>
+	<script src="/app/services/userRoles.js"></script>
+
+	<!-- Directivas creadas para encapsular funcionalidad-->
+	<script src="/app/directives/tables/tableEdit.js"></script>
+	<script src="/app/directives/charts/lineChart.js"></script>
+	<script src="/app/directives/charts/pieChart.js"></script>
+	<script src="/app/directives/charts/barChart.js"></script>
+	<script src="/app/directives/filter_properties.js"></script>
+	<script src="/app/directives/properties_filter_by_month.js"></script>
+
+	<!-- Controladores para lógica de los usuarios y autenticación -->
+	<script src="/app/controllers/users/authentication.js"></script>
+	<script src="/app/controllers/users/index.js"></script>
+
+	<!-- Controladores para lógica de los canales -->
+	<script src="/app/controllers/channels/index.js"></script>
+	<script src="/app/controllers/channels/create.js"></script>
+
+	<!-- Controladores para lógica de las propiedades -->
+	<script src="/app/controllers/properties/index.js"></script>
+	<script src="/app/controllers/properties/create.js"></script>
+
+	<!-- Controladores para lógica de los datos de cuartos y montos por propiedad -->
+	<script src="/app/controllers/properties_data/index.js"></script>
+
+	<!-- Controladores para lógica de los reportes generados para los clientes -->
+	<script src="/app/controllers/reports/index.js"></script>
+
+	<script src="/app/controllers.js"></script>
+
+</head>
+
+<body  ng-app="DashboardApp">
+	<div class="container" ng-controller="AppCtrl">
+		<div class="header clearfix">
+			<nav>
+				<ul class="nav nav-pills pull-right">
+					<li ng-if="auth.isAuthenticated() && user.rolesType['admin']" role="presentation"><a href="#/users">Usuarios</a></li>
+					<li ng-if="auth.isAuthenticated() && user.rolesType['admin']" role="presentation"><a href="#/channels">Canales</a></li>
+					<li ng-if="auth.isAuthenticated() && user.rolesType['admin']" role="presentation"><a href="#/properties">Propiedades</a></li>
+					<li ng-if="auth.isAuthenticated() && (user.rolesType['admin'] || user.rolesType['data_admin'])" role="presentation"><a href="#/properties_data">Datos por propiedad</a></li>
+					<li ng-if="auth.isAuthenticated() && (user.rolesType['admin'] || user.rolesType['reports'])" role="presentation"><a href="#/reports">Reportes</a></li>
+					<li ng-if="auth.isAuthenticated()" role="presentation"><a href="#/auth/logout">Salir</a></li>
+					<li ng-if="!auth.isAuthenticated()" role="presentation"><a href="#/auth/login">Login</a></li>
+				</ul>
+			</nav>
+			<!--{{user}}-->
+			<h3 class="text-muted">
+				<a href="#/home">
+					<img src="/images/logo_trt.png" width="100px"><br>
+				</a>
+				<label ng-if="auth.isAuthenticated()">{{user.complete_name}}</label>
+			</h3>
+		</div>
+
+
+		<div class="row main-view">
+			<ui-view></ui-view>
+		</div>
+
+		<footer class="footer">
+			<p>&copy; 2017, TRT Interactive</p>
+		</footer>
+
+	</div>
+</body>
+</html>

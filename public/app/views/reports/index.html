@@ -1,0 +1,41 @@
+<div>
+	<div class="full well text-center">
+		<div>
+			<label>Información: </label>
+			<select ng-model="viewType" ng-change="refresh()">
+				<option value="0">Tabla general</option>
+				<option value="1">Gráficos</option>
+			</select>
+		</div>
+
+		<div ng-show="viewType=='1'" >
+			<label>Gráfico: </label>
+			<select ng-model="plotType">
+				<option value="0">Comparación entre años</option>
+				<option value="1">Comparación entre totales de canales</option>
+				<option value="2">Comparación entre canales por mes</option>
+			</select>
+		</div>
+
+		<div ng-show="viewType=='1'" >
+			<label>Variable: </label>
+			<select ng-model="plotSubType">
+				<option value="0">Facturación</option>
+				<option value="1">Cantidad de cuartos</option>
+			</select>
+		</div>
+	</div>
+	<div  ng-if="viewType=='0'">
+		<table-edit section-type="reports"></table-edit>
+	</div>
+
+	<div ng-if="viewType=='1' && plotType=='0'">
+		<bar-chart xlabel="Meses" ylabel="{{ylabel}}" title="{{plotTitle}}" variable="{{plotVariable}}"></bar-chart>
+	</div>
+	<div ng-if="viewType=='1' && plotType=='1'">
+		<pie-chart title="{{plotTitle}}" variable="{{plotVariable}}"></pie-chart>
+	</div>
+	<div ng-if="viewType=='1' && plotType=='2'">
+		<line-chart xlabel="Meses" ylabel="{{ylabel}}" title="{{plotTitle}}" variable="{{plotVariable}}"></line-chart>
+	</div>
+</div>

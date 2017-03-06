@@ -1,0 +1,38 @@
+<!-- Form para refrescar la tabla para subir los datos -->
+<div>
+	<div class="form-group">
+		<div class="well oneThird">
+			<div class="form-group">
+				<label>Propiedad</label> 
+				<select ng-model="data.propertyId">
+					<option ng-repeat="property in properties" value="{{property._id}}">{{property.name}} </option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Canales</label>
+				<br/>
+				<span ng-repeat="channel in channels" >
+					<input type="checkbox" ng-model="data.channelsSelected[channel._id]"  ng-change="reloadData(data.propertyId)" >
+					<!--ng-init="data.channelsSelected[channel._id]=true"-->
+					{{channel.name}}
+				</span>
+				<br/>
+			</div>
+		</div>
+		<div class="well oneThird">
+			<div class="half">
+				<label>Desde el año: </label>
+				<select ng-model="data.fromYear" ng-change="reloadData(data.propertyId)">
+					<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+				</select>
+			</div>
+
+			<div class="half">
+				<label>Hasta el año</label> 
+				<select ng-model="data.toYear" ng-change="reloadData(data.propertyId)">
+					<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+</div>

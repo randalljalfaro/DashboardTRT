@@ -1,0 +1,44 @@
+<!-- Form para refrescar la tabla para subir los datos -->
+<div>
+	<form>
+		<div class="oneThird well">
+			<div class="form-group">
+				<label>Propiedad</label> 
+				<select ng-model="data.propertyId">
+					<option ng-repeat="property in properties" value="{{property._id}}">{{property.name}}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Canal</label> 
+				<select ng-model="data.channelId">
+					<option ng-repeat="channel in channels" value="{{channel._id}}">{{channel.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="oneThird well">
+			<label>Desde</label> 
+			<div class="well">
+				<label>Mes: </label> 
+				<select ng-model="data.fromMonth" ng-change="reloadData(data.propertyId)">
+					<option ng-repeat="month in months" value="{{month}}">{{month}}</option>
+				</select>
+				<label>Año: </label> 
+				<select ng-model="data.fromYear" ng-change="reloadData(data.propertyId)">
+					<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+				</select>
+			</div>
+
+			<label>Hasta</label> 
+			<div class="well">
+				<label>Mes: </label> 
+				<select  ng-model="data.toMonth" ng-change="reloadData(data.propertyId)">
+					<option ng-repeat="month in months" value="{{month}}">{{month}}</option>
+				</select>
+				<label>Año: </label> 
+				<select ng-model="data.toYear" ng-change="reloadData(data.propertyId)">
+					<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>

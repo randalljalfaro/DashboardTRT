@@ -1,0 +1,14 @@
+{
+  "name": "trt_dashboard_server",
+  "version": "1.0.0",
+  "description": "Basic athentication functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Randall Josué Alfaro González",
+  "license": "ISC",
+  "dependencies": {
+    "angular-chart.js": "^1.1.1"
+  }
+}

@@ -1,0 +1,47 @@
+<div class="table-responsive table-striped  table-hover">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Nombre completo</th>
+				<th>Nombre de usuario</th>
+				<th>Correo electrónico</th>
+				<th>Roles</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="user in users">
+				<td>{{user.complete_name}}</td>
+				<td>{{user.username}}</td>
+				<td>{{user.email}}</td>
+				<td>
+					<div ng-repeat="role in user.roles"  class="well well-sm">
+						<label><u>{{getPermissionName(role.type)}}</u></label><br>
+						<label ng-if="role.sections.length && role.sections.length>0">Propiedades:</label>
+						<ul>
+							<li ng-repeat="section in role.sections">
+								{{properties[section].name}}
+							</li>
+						</ul>
+					</div>
+				</td>
+				<td>
+					<button class="btn btn-info btn-lg btn-actions">
+						<span class="glyphicon glyphicon-edit"></span> Editar
+					</button>
+					<br>
+					<br>
+					<button ng-click='actions.delete(user._id, callbacks.delete.success, callbacks.delete.error)' class="btn btn-danger btn-lg btn-actions">
+						<span class="glyphicon glyphicon-remove-sign"></span> Eliminar
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<a href="#/auth/signup">
+		<button class="btn btn-primary">
+			<span class="glyphicon glyphicon-plus"></span>Crear
+		</button>
+	</a>
+
+</div>

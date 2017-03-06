@@ -1,0 +1,23 @@
+{
+  "name": "trt_dashboard_server",
+  "version": "1.0.0",
+  "description": "Basic athentication functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Randall Josué Alfaro González",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cookie-parser": "^1.4.1",
+    "cors": "*",
+    "express": "*",
+    "express-validator": "*",
+    "jwt-simple": "*",
+    "moment": "*",
+    "mongodb": "*",
+    "mongoose": "*"
+  }
+}

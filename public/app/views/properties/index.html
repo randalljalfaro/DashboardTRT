@@ -1,0 +1,38 @@
+<div class="table-responsive table-striped  table-hover">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Tipo</th>
+				<th>Canales</th>
+				<th>Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="property in properties">
+				<td>{{property.name}}</td>
+				<td>{{property.type}}</td>
+				<td>
+					<ul>
+						<li ng-repeat="channel in property.channels">{{channel.name}}</li>
+					</ul>
+				</td>
+				<td>
+					<button class="btn btn-info btn-lg btn-actions">
+						<span class="glyphicon glyphicon-edit"></span> Editar
+					</button>
+					<br>
+					<br>
+					<button ng-click='actions.delete(property._id, callbacks.delete.success, callbacks.delete.error)' class="btn btn-danger btn-lg btn-actions">
+						<span class="glyphicon glyphicon-remove-sign"></span> Eliminar
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<a href="#/properties/create">
+		<button class="btn btn-primary">
+			<span class="glyphicon glyphicon-plus"></span>Crear
+		</button>
+	</a>
+</div>

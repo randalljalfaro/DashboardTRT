@@ -1,0 +1,11 @@
+<properties-filter-by-month></properties-filter-by-month>
+<div ng-if="!config || !config.data || config.data.length==0" class="table-responsive table-striped  full well">
+	<div class="full text-center">
+		<h2>No hay datos para el criterio establecido.</h2>
+	</div>
+</div>
+<div>
+	<canvas id="bar" class="chart chart-bar"
+	chart-data="config.data" chart-labels="labels" chart-series="config.series" 
+	chart-options="config.options" height="300" width="500"></canvas>
+</div>

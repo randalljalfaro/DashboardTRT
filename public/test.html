@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>TRT Reportes</title>
+
+
+	<!-- Hojas de estilo -->
+	<link rel="stylesheet" href="/css/bootstrap.css" />
+	<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="/css/main.css" />
+
+	<!-- Bibliotecas de código -->
+	<script src="/app/bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="/app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="/app/bower_components/angular/angular.min.js"></script>
+
+	<!-- Dependencias de la aplicación -->
+	<script src="/app/bower_components/chart.js/dist/Chart.bundle.min.js"></script>
+	<script src="/app/bower_components/chart.js/dist/Chart.min.js"></script>
+	<script src="/app/bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+
+	<script type="text/javascript">
+		angular.module("app", ["chart.js"]).controller("PieCtrl", function ($scope) {
+			$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+			$scope.data = [300, 500, 100];
+		});
+	</script>
+</head>
+
+<body  ng-app="app">
+	<div class="container" ng-controller="PieCtrl">
+		<canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels"></canvas>
+		{{labels}}
+		{{data}}
+	</div>
+</body>
+</html>
