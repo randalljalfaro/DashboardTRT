@@ -1,6 +1,6 @@
 //Authentication controllers
 app.controller("SignUpCtrl", ["$scope", "$auth", "$location",  "requestHandlers", SignUpCtrl]);
-app.controller("LoginCtrl", ["$scope", "$auth", "$location", "userRoles",  LoginCtrl]);
+app.controller("LoginCtrl", ["$scope", "$auth", "$location", "userRoles", LoginCtrl]);
 app.controller("LogoutCtrl",["$auth", "$location", "userRoles", LogoutCtrl]);
 
 function SignUpCtrl($scope, $auth, $location, reqHandlers) {
@@ -44,7 +44,7 @@ function LoginCtrl($scope, $auth, $location, userRoles) {
 			password: vm.password
 		})
 		.then(function(response){
-			userRoles.setCurrentUser();
+			userRoles.setCurrentUser(response.data.user);
 			$auth.setToken(response.data.token);
 			$location.path("/home");
 		})
