@@ -22,6 +22,7 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
       $scope.data_length=0;
       $scope.channelSelected="";
 
+      //---------------------------------------------------------------
       $scope.onEditClick = function(year){
         if($scope.editing[year]==null){
           $scope.editing[year]=true;
@@ -30,6 +31,7 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
         }
       }
 
+      //---------------------------------------------------------------
       $scope.onSaveClick = function(year){
         var data = {
           property: $scope.propertySelected,
@@ -60,6 +62,7 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
         //console.log(data);
       }
 
+      //---------------------------------------------------------------
       function filterCallback(property_data, propertyId, channels){
         var data = property_data;
         $scope.propertySelected = propertyId;
@@ -84,7 +87,16 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
             }
           }
         }
-        for(var year in tableData.years){
+        $scope.totalYearRange = [];
+        for (var year = $scope.filterData.fromYear; year <= $scope.filterData.toYear; year++) {
+          $scope.totalYearRange.push(year);
+        //for(var year in tableData.years){
+          if(!tableData.years[year]){
+            tableData.years[year] = {
+              months: {}, 
+              totals: {amount:0, bedroom_count:0}
+            };
+          }
           for(var i=0; i<$scope.months.length; i++){
             if(!tableData.years[year].months[i]){
               tableData.years[year].months[i] = {
@@ -130,6 +142,9 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
           }
           tableData.totals[variable] += value;
         }
+
+        //++++++++++++++++++++++++
+        //alert(JSON.stringify($scope.filterData));
       };
     }]
   };

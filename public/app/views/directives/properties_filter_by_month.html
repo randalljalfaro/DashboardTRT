@@ -4,7 +4,7 @@
 		<div class="well oneThird">
 			<div class="form-group">
 				<label>Propiedad</label> 
-				<select ng-model="data.propertyId">
+				<select ng-model="filterData.propertyId">
 					<option ng-repeat="property in properties" value="{{property._id}}">{{property.name}} </option>
 				</select>
 			</div>
@@ -12,7 +12,7 @@
 				<label>Canales</label>
 				<br/>
 				<span ng-repeat="channel in channels" >
-					<input type="checkbox" ng-model="data.channelsSelected[channel._id]"  ng-change="reloadData(data.propertyId)" >
+					<input type="checkbox" ng-model="filterData.channelsSelected[channel._id]"  ng-change="reloadData(filterData.propertyId)" >
 					<!--ng-init="data.channelsSelected[channel._id]=true"-->
 					{{channel.name}}
 				</span>
@@ -22,14 +22,14 @@
 		<div class="well oneThird">
 			<div class="half">
 				<label>Desde el año: </label>
-				<select ng-model="data.fromYear" ng-change="reloadData(data.propertyId)">
+				<select ng-model="filterData.fromYear" ng-change="reloadData(filterData.propertyId)">
 					<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
 				</select>
 			</div>
 
 			<div class="half">
 				<label>Hasta el año</label> 
-				<select ng-model="data.toYear" ng-change="reloadData(data.propertyId)">
+				<select ng-model="filterData.toYear" ng-change="reloadData(filterData.propertyId)">
 					<option ng-repeat="year in years" value="{{year}}">{{year}}</option>
 				</select>
 			</div>

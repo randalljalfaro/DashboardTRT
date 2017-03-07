@@ -13,6 +13,10 @@ var PropertySchema = mongoose.Schema({
 		type: String,
 		required : true
 	},
+	active: {
+		type: Boolean,
+		default: true
+	},
 	channels:[{ type: ObjectId, ref: 'Channel' }]
 });
 var Property = module.exports = mongoose.model('Property', PropertySchema);

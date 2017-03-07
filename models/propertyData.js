@@ -176,11 +176,14 @@ module.exports.updateData = function(property, channel, year, months, cb){
 		});
 	}
 	PropertyData.find(query, function(err, property_data){
-		if(property_data)
+		if(property_data && property_data.length>0){
+			//console.log("*--*"+JSON.stringify(property_data,null, 2));
 			PropertyData.update(query, {months: monthsData}, cb);
+		}
 		else{
 			query.months = monthsData;
 			var newData = new PropertyData(query);
+			//console.log("*++*"+JSON.stringify(newData,null, 2));
 			newData.save(cb);
 		}
 	});
