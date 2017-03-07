@@ -18,9 +18,11 @@
 					</ul>
 				</td>
 				<td>
-					<button class="btn btn-info btn-lg btn-actions">
-						<span class="glyphicon glyphicon-edit"></span> Editar
-					</button>
+					<a href="#/properties/update/{{property._id}}">
+						<button class="btn btn-info btn-lg btn-actions"> 
+							<span class="glyphicon glyphicon-edit">Editar</span>
+						</button>
+					</a>
 					<br>
 					<br>
 					<button ng-click='actions.delete(property._id, callbacks.delete.success, callbacks.delete.error)' class="btn btn-danger btn-lg btn-actions">

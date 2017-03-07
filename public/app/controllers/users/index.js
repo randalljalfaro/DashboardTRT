@@ -4,12 +4,11 @@ function UsersCtrl($scope, $http, $location, reqHandlers) {
 	$scope.selectedPermissions = {};
 	$scope.actions = reqHandlers.users;
 	reqHandlers.properties.get(
-		"admin",
+		{type:"admin"},
 		function(response){
 			$scope.properties = {};
-			for(var p in response.data){
-				var prop = response.data[p];
-				$scope.properties[prop._id] = prop;
+			for(var p in response){
+				$scope.properties[response[p]._id] = response[p];
 			}
 		}, function(){
 			$scope.properties = {};
@@ -34,8 +33,8 @@ function UsersCtrl($scope, $http, $location, reqHandlers) {
 				$scope.actions.get(cbs.get.success, cbs.get.error);
 			},
 			error : function(response){
-				alert("Ha habido un problema al realizar la eliminación del usario");
-				alert(JSON.stringify(response));
+				alert("Ha habido un problema al realizar la eliminación del usario, contacte al administrador.");
+				//alert(JSON.stringify(response));
 			}
 		},
 		get : {
@@ -43,8 +42,8 @@ function UsersCtrl($scope, $http, $location, reqHandlers) {
 				$scope.users = response.data;
 			},
 			error : function (response) {
-				alert("Error al cargar la información de los usuarios");
-				alert(JSON.stringify(response));
+				alert("Error al cargar la información de los usuarios, contacte al administrador.");
+				//alert(JSON.stringify(response));
 			}
 		}
 	}

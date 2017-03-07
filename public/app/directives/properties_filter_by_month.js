@@ -3,9 +3,6 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 		restrict: 'E',
 		transclude: true,
 		scope: false,
-		/*{
-			filterType : "@"
-		},*/
 		templateUrl: '/app/views/directives/properties_filter_by_month.html',
 		controller: ['$scope', function($scope) {
 			$scope.filterData = {
@@ -18,13 +15,16 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 
 			$scope.properties = [];
 			reqHandlers.properties.get(
-				"reports", 
+				{type:$scope.sectionType},
 				function (response){
-					$scope.properties = response.data;
+					$scope.properties = response;
 					if($scope.properties && $scope.properties.length > 0){
 						$scope.filterData.propertyId = $scope.properties[0]._id;
 						updatePropertyId();
 					}
+				},
+				function(response){
+					alert("Error al cargar los datos de las propiedades.");
 				});
 
 			var channelsInfo = {};
@@ -102,7 +102,7 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 					},
 					function(result){
 						alert("Error al traer los datos de la propiedad desde el servidor.");
-						alert(JSON.stringify(result));
+						//alert(JSON.stringify(result));
 					});
 				}
 			}

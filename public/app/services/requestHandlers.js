@@ -43,11 +43,16 @@ app.factory('requestHandlers', function($http) {
 
 	//*****************************************************************
 	//Properties
-	function get_properties(type, successCallback, errorCallback){
-		$http({
-			method: 'GET',
-			url: '/properties/'+type
-		}).then(successCallback, errorCallback);
+	function get_properties(data, successCallback, errorCallback){
+		var req = {
+			method: 'POST',
+			url: '/properties/get',
+			headers: {
+				'Content-Type': "application/json"
+			},
+			data: data
+		}
+		$http(req).success(successCallback).error(errorCallback);
 	}
 	function create_property(property, successCallback, errorCallback){
 		$http.post('/properties/', JSON.stringify(property))

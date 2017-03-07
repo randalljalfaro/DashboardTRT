@@ -4,8 +4,8 @@
 		<h2>No hay datos para el criterio establecido.</h2>
 	</div>
 </div>
-<div>
-	<canvas id="bar" class="chart chart-bar"
+<div ng-if="config && config.data && config.data.length>0" >
+	<canvas id="bar" class="chart chart-bar borders rounded"
 	chart-data="config.data" chart-labels="labels" chart-series="config.series" 
-	chart-options="config.options" height="300" width="500"></canvas>
+	chart-options="config.options" chart-colors="config.options.colors" height="300" width="500"></canvas>
 </div>

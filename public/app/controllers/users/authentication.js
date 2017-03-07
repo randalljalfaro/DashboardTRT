@@ -7,9 +7,10 @@ function SignUpCtrl($scope, $auth, $location, reqHandlers) {
 	var vm = this;
 	//Traer por medio de una petición HTTP
 	$scope.properties = [];
-	reqHandlers.properties.get("admin",
+	reqHandlers.properties.get(
+		{type:"admin"},
 		function(response){
-			$scope.properties = response.data;
+			$scope.properties = response;
 		}, function(){});
 	$scope.permissions = permissions[0].types;
 	//------------------------------------

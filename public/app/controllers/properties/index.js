@@ -11,7 +11,7 @@ function PropertiesCtrl($scope, $http, $location, reqHandlers) {
 			success : function(response){
 				//alert("Eliminición de usario ha sido exitoso");
 				//$location.path("/users");
-				$scope.actions.get("admin", cbs.get.success, cbs.get.error);
+				refreshProperties();
 			},
 			error : function(response){
 				alert("Ha habido un problema al realizar la eliminación de la propiedad");
@@ -20,7 +20,7 @@ function PropertiesCtrl($scope, $http, $location, reqHandlers) {
 		},
 		get : {
 			success : function (response) {
-				$scope.properties = response.data;
+				$scope.properties = response;
 			},
 			error : function (response) {
 				alert("Error al cargar la información de las propiedades");
@@ -28,5 +28,9 @@ function PropertiesCtrl($scope, $http, $location, reqHandlers) {
 			}
 		}
 	}
-	$scope.actions.get("admin", cbs.get.success, cbs.get.error);
-}
+	refreshProperties();
+
+	function refreshProperties(){
+		$scope.actions.get({type:"admin"}, cbs.get.success, cbs.get.error);
+	}
+}	

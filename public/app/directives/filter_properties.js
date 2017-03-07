@@ -20,12 +20,14 @@ app.directive('filterProperties', ["requestHandlers", function(reqHandlers) {
       //alert($scope.sectionType);
 
       reqHandlers.properties.get(
-        $scope.sectionType,
+        {type:$scope.sectionType},
         function (response){
           $scope.properties = response.data;
           if($scope.properties && $scope.properties.length > 0){
             $scope.data.propertyId = $scope.properties[0]._id;
           }
+        },function(response){
+          alert("Error al cargar las propiedades, contactar al administrador.");
         });
 
       $scope.property_data = [];

@@ -43,3 +43,8 @@
 .spaces{
 	margin-top: 10px;
 }
+.borders{
+    border: 3px solid #dedede;
+    border-radius:5px;
+    padding: 10px;
+}

@@ -39,14 +39,25 @@ router.post('/', authManager.ensureAuthenticated, function(req, res){
 		});
 	}
 });
-
-router.get('/:type', authManager.ensureAuthenticated, function(req, res){
-	User.getRoleSections(req.userId, req.params.type, function(sections) {
+ 
+router.post('/get', authManager.ensureAuthenticated, function(req, res){
+	User.getRoleSections(req.userId, req.body.type, function(sections) {
 		var query = {};
+		if(req.body.property && Array.isArray(sections)){
+			for(var s in sections){
+				if(sections[s] == req.body.property){
+					query._id = req.body.property;
+				}
+			}
+		}
+		else if(req.body.property && sections){
+			query._id = req.body.property;
+		}
+
 		if(sections==false){
 			return responseManager.dataResponse(res, 200, []);
 		}
-		else if(Array.isArray(sections)){
+		else if(!req.body.property && Array.isArray(sections)){
 			query = {
 				_id : {
 					$in: sections
@@ -57,6 +68,11 @@ router.get('/:type', authManager.ensureAuthenticated, function(req, res){
 			responseManager.checkAndReponse(err, res, properties);
 		});
 	});
+});
+
+router.post('/update', authManager.ensureAuthenticated, function(req, res){
+
+
 });
 
 router.delete('/:propertyId', authManager.ensureAuthenticated, function(req, res){

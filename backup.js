@@ -31,3 +31,5 @@ db.properties.insert({
 	]
 });
 */
+
+//sudo ssh -i dashboard-credomatic.pem ubuntu@ec2-54-91-182-133.compute-1.amazonaws.com

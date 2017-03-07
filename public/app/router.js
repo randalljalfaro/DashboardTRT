@@ -54,6 +54,11 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 		templateUrl: appDir+"views/properties/create.html",
 		controller: "PropertyCreateCtrl"
 	})
+	.state("properties_update", {
+		url: "/properties/update/:property",
+		templateUrl: appDir+"views/properties/create.html",
+		controller: "PropertyCreateCtrl"
+	})
 
 	//Properties Data
 	.state("properties_data", {
