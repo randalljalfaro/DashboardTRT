@@ -19,7 +19,7 @@ function PropertyCreateCtrl($scope, $http, $location, $stateParams, reqHandlers)
 				}
 			},
 			function(response){
-				alert("Error al cargar la propiedad.");
+				alert("Error al cargar la propiedad, contacte al administrador.");
 			});
 	}
 	$scope.selectedChannels = {};
@@ -38,7 +38,7 @@ function PropertyCreateCtrl($scope, $http, $location, $stateParams, reqHandlers)
 				$location.path("/properties");
 			},
 			error : function(response){
-				alert("Ha habido un problema al realizar la creación de la propiedad, contacte al administrador.");
+				alert("Ha habido un problema al realizar la creación o edición de la propiedad, contacte al administrador.");
 				//alert(JSON.stringify(response));
 			}
 		}
@@ -46,7 +46,8 @@ function PropertyCreateCtrl($scope, $http, $location, $stateParams, reqHandlers)
 
 	$scope.submit = function(){
 		if($scope.data._id){
-			alert("IMPLEMENTAR ACCIÓN DE EDITAR");
+			$scope.actions.update($scope.data, cbs.create.success, cbs.create.error);
+			//alert("IMPLEMENTAR ACCIÓN DE EDITAR");
 		}
 		else{
 			$scope.actions.create($scope.data, cbs.create.success, cbs.create.error);

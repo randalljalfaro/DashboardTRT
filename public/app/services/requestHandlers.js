@@ -54,6 +54,17 @@ app.factory('requestHandlers', function($http) {
 		}
 		$http(req).success(successCallback).error(errorCallback);
 	}
+	function update_property(data, successCallback, errorCallback){
+		var req = {
+			method: 'PUT',
+			url: '/properties',
+			headers: {
+				'Content-Type': "application/json"
+			},
+			data: data
+		}
+		$http(req).success(successCallback).error(errorCallback);
+	}
 	function create_property(property, successCallback, errorCallback){
 		$http.post('/properties/', JSON.stringify(property))
 		.success(successCallback)
@@ -108,7 +119,8 @@ app.factory('requestHandlers', function($http) {
 		properties: {
 			get : get_properties,
 			create : create_property,
-			delete : delete_property
+			delete : delete_property,
+			update : update_property
 		},
 		properties_data: {
 			get : get_properties_data,

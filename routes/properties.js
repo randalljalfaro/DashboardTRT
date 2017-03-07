@@ -8,14 +8,6 @@ var responseManager = require('../util/responseManager');
 router.post('/', authManager.ensureAuthenticated, function(req, res){
 	var name = req.body.name;
 	var type = req.body.type;
-	var channels = [];
-	if(req.body.channels) {
-		for(var channel in req.body.channels){
-			if(req.body.channels[channel]==true){
-				channels.push(channel);
-			}
-		}
-	}
 
 	req.checkBody('name', 'El nombre es requerido').notEmpty();;
 	req.checkBody('type', 'El tipo es requerido').notEmpty();
@@ -31,7 +23,7 @@ router.post('/', authManager.ensureAuthenticated, function(req, res){
 		var newProperty = new Property({
 			name: name,
 			type:type,
-			channels: channels
+			channels: getChannelsList(req.body.channels)
 		});
 
 		newProperty.save(function(err, property){
@@ -39,7 +31,7 @@ router.post('/', authManager.ensureAuthenticated, function(req, res){
 		});
 	}
 });
- 
+
 router.post('/get', authManager.ensureAuthenticated, function(req, res){
 	User.getRoleSections(req.userId, req.body.type, function(sections) {
 		var query = {};
@@ -70,9 +62,17 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 	});
 });
 
-router.post('/update', authManager.ensureAuthenticated, function(req, res){
-
-
+router.put('/', authManager.ensureAuthenticated, function(req, res){
+	//Validar antes de actualizar
+	var propUpdate = {
+		name: req.body.name,
+		type: req.body.type,
+		channels: getChannelsList(req.body.channels)
+	}
+	Property.update({_id:req.body._id}, propUpdate,
+		function(err, property) {
+			responseManager.checkAndReponse(err, res);
+		});
 });
 
 router.delete('/:propertyId', authManager.ensureAuthenticated, function(req, res){
@@ -81,5 +81,14 @@ router.delete('/:propertyId', authManager.ensureAuthenticated, function(req, res
 	});
 });
 
+function getChannelsList(channels){
+	var channelsList = [];
+	for(var channel in channels){
+		if(channels[channel]==true){
+			channelsList.push(channel);
+		}
+	}
+	return channelsList;
+}
 
 module.exports = router;
