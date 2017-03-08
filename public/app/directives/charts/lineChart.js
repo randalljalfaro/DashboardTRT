@@ -11,6 +11,7 @@ app.directive('lineChart', ['chartDataFactory', function(chartDataFactory) {
     templateUrl: '/app/views/directives/charts/lineChart.html',
     controller: ['$scope', function($scope) {
       $scope.type = "line";
+      $scope.sectionType = "reports";
       $scope.labels = [
       'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 
       'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre'];

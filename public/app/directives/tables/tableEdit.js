@@ -38,7 +38,7 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
           channel: $scope.channelSelected,
           year: year,
           months:[]
-        }
+        };
         for(var monthNumber in $scope.tableData.years[year].months){
           var month = $scope.tableData.years[year].months[monthNumber];
           if(!month.isNew  || (month["amount"]>0 || month["bedroom_count"]>0)){
@@ -48,7 +48,7 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
               number : monthNumber
             });
           }
-        }
+        };
         $scope.editing[year]=!$scope.editing[year];
         reqHandlers.properties_data.update(
           data, 
@@ -69,7 +69,7 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
         $scope.data_length = channels.length;
         if(channels.length>0){
           $scope.channelSelected = channels[0];
-        }
+        };
         var tableData = {
           years:{},
           totals:{}
@@ -86,7 +86,7 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
               checkAndInitCounts("bedroom_count", yearData.year, monthData.number, monthData.bedroom_count);
             }
           }
-        }
+        };
         $scope.totalYearRange = [];
         for (var year = $scope.filterData.fromYear; year <= $scope.filterData.toYear; year++) {
           $scope.totalYearRange.push(year);

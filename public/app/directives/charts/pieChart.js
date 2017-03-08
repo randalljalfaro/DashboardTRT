@@ -9,6 +9,7 @@ app.directive('pieChart', ['chartDataFactory', function(chartDataFactory) {
     templateUrl: '/app/views/directives/charts/pieChart.html',
     controller: ['$scope', function($scope) {
       $scope.type = "pie";
+      $scope.sectionType = "reports";
       var lastResult = [];
       $scope.filterCallback = function(result){
         lastResult = result;

@@ -13,6 +13,7 @@ app.directive('barChart', ['chartDataFactory', function(chartDataFactory) {
     templateUrl: '/app/views/directives/charts/barChart.html',
     controller: ['$scope', function($scope) {
       $scope.type = "bar";
+      $scope.sectionType = "reports";
       var lastResult = [];
       $scope.labels = [
       'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 

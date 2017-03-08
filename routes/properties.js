@@ -46,7 +46,7 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 			query._id = req.body.property;
 		}
 
-		if(sections==false){
+		else if(sections==false){
 			return responseManager.dataResponse(res, 200, []);
 		}
 		else if(!req.body.property && Array.isArray(sections)){
@@ -56,6 +56,7 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 				}
 			}
 		}
+		console.log("** --> "+JSON.stringify(query,null, 2));
 		Property.find(query).populate('channels').exec(function(err, properties) {
 			responseManager.checkAndReponse(err, res, properties);
 		});
@@ -68,7 +69,7 @@ router.put('/', authManager.ensureAuthenticated, function(req, res){
 		name: req.body.name,
 		type: req.body.type,
 		channels: getChannelsList(req.body.channels)
-	}
+	};
 	Property.update({_id:req.body._id}, propUpdate,
 		function(err, property) {
 			responseManager.checkAndReponse(err, res);
