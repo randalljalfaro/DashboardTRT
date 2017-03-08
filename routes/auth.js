@@ -73,25 +73,27 @@ router.post('/signup', authManager.ensureAuthenticated, function(req, res){
 
 //Controlador de la lógica para el login
 router.post('/login', function(req, res){
-	//Buscar por constraseña hasheada
-	User.findOne({username: req.body.username}, function(err, user) {
-		//**FALTA**
-        //Revisar si la contraseña es correcta
-        //console.log("*login* -> ("+JSON.stringify(user)+")");
-        if(err)
-        	responseManager.checkAndReponse(err, res);
-        else if(user)
-        	responseManager.checkAndReponse(err, res, {
-        		token: authManager.createToken(user),
-        		user: {
-        			username : user.username,
-        			complete_name : user.complete_name,
-        			email : user.email,
-        			roles : user.roles
-        		}
-        	});
-        else
+	User.findOne({username: req.body.username}, function(errUser, user) {
+        if(errUser)
+        	responseManager.checkAndReponse(errUser, res);
+        else if(!user)
         	responseManager.errorReponse(res, 401, [{msg:"Nombre de usuario y/o contraseña incorrecta"}]);
+        else {
+        	User.comparePassword(req.body.password, user.password, function(errPass, isMatch){
+        		if(!isMatch)
+        			responseManager.errorReponse(res, 401, [{msg:"Nombre de usuario y/o contraseña incorrecta"}]);
+        		else
+        			responseManager.checkAndReponse(errPass, res, {
+        				token: authManager.createToken(user),
+        				user: {
+        					username : user.username,
+        					complete_name : user.complete_name,
+        					email : user.email,
+        					roles : user.roles
+        				}
+        			});
+        	});
+        }
     });
 });
 
