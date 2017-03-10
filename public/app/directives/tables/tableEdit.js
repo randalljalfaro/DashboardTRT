@@ -1,13 +1,14 @@
-app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(chartDataFactory, reqHandlers) {
-  return {
-    restrict: 'E',
-    transclude: true,
-    scope: {
-      editable : "@",
-      sectionType : "@"
-    },
-    templateUrl: '/app/views/directives/tables/tableEdit.html',
-    controller: ['$scope', function($scope) {
+app.directive('tableEdit', 
+  ['chartDataFactory', 'requestHandlers', 'formater', function(chartDataFactory, reqHandlers,formater) {
+    return {
+      restrict: 'E',
+      transclude: true,
+      scope: {
+        editable : "@",
+        sectionType : "@"
+      },
+      templateUrl: '/app/views/directives/tables/tableEdit.html',
+      controller: ['$scope', function($scope) {
       //Función necesaria para quien use cualquiera de los filtros
       $scope.filterCallback = filterCallback;
       $scope.editing = {};
@@ -21,6 +22,22 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
       $scope.propertySelected="";
       $scope.data_length=0;
       $scope.channelSelected="";
+
+      /*alert("RESULT y: "+formater.numberFormat("2.344,4"));
+      alert("RESULT y: "+formater.numberFormat("4,434.455.466.4"));
+      alert("RESULT y: "+formater.numberFormat("45.566.666,434.455.466.4"));
+      alert("RESULT y: "+formater.numberFormat("45.434.455,466.466"));
+      alert("RESULT y: "+formater.numberFormat("45.434.455.466.466,3"));
+      alert("RESULT n: "+formater.numberFormat("45,434.455,466.4"));
+      alert("RESULT n: "+formater.numberFormat("45.434.455,466.4"));
+      alert("RESULT n: "+formater.numberFormat("45.5r6.666,434.455.466.4"));
+      alert("RESULT n: "+formater.numberFormat("45.56.66,434.455.466.4"));
+      alert("RESULT n: "+formater.numberFormat("2.344,432.234,3"));
+      alert("RESULT y: "+formater.toNumberFormat(2.3444));
+      alert("RESULT y: "+formater.toNumberFormat(243543.5567));
+      alert("RESULT y: "+formater.toNumberFormat(2435435567));
+      alert("RESULT y: "+formater.toNumberFormat(0.5567));*/
+      
 
       //---------------------------------------------------------------
       $scope.onEditClick = function(year){
@@ -42,9 +59,22 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
         for(var monthNumber in $scope.tableData.years[year].months){
           var month = $scope.tableData.years[year].months[monthNumber];
           if(!month.isNew  || (month["amount"]>0 || month["bedroom_count"]>0)){
+            /*alert(month.amount+" - "+ month.bedroom_count);
+            alert(typeof (""+month.amount));
+            alert(typeof (""+month.bedroom_count));*/
+            var validAmount = formater.fromNumberFormat(String(month.amount));
+            var validBedroomsCount = formater.fromNumberFormat(String(month.bedroom_count));
+            if(validAmount == null){
+              alert("Error en el valor del monto '"+month.amount+"', en el mes de "+$scope.months[monthNumber]);
+              return null;
+            }
+            if(validBedroomsCount==null){
+              alert("Error en el valor de cantidad de cuartos '"+month.bedroom_count+"', en el mes de "+$scope.months[monthNumber]);
+              return null;
+            }
             data.months.push({
-              amount: month.amount,
-              bedroom_count: month.bedroom_count,
+              amount: validAmount,
+              bedroom_count: validBedroomsCount,
               number : monthNumber
             });
           }
@@ -143,8 +173,19 @@ app.directive('tableEdit', ['chartDataFactory', 'requestHandlers', function(char
           tableData.totals[variable] += value;
         }
 
-        //++++++++++++++++++++++++
-        //alert(JSON.stringify($scope.filterData));
+        function formatFields(variables){
+          for(year in tableData.years){
+            for(month in tableData.years[year].months){
+              var monthVal = tableData.years[year].months[month];
+              for(i in variables){
+                tableData.years[year].months[month][variables[i]] = formater.toNumberFormat(monthVal[variables[i]]);
+              }
+            }
+          }
+        }
+
+        formatFields(["amount", "bedroom_count"]);
+
       };
     }]
   };
