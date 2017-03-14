@@ -9,6 +9,7 @@ app.directive('tableEdit',
       },
       templateUrl: '/app/views/directives/tables/tableEdit.html',
       controller: ['$scope', function($scope) {
+      $scope.formater = formater;
       //Función necesaria para quien use cualquiera de los filtros
       $scope.filterCallback = filterCallback;
       $scope.editing = {};
@@ -22,22 +23,6 @@ app.directive('tableEdit',
       $scope.propertySelected="";
       $scope.data_length=0;
       $scope.channelSelected="";
-
-      /*alert("RESULT y: "+formater.numberFormat("2.344,4"));
-      alert("RESULT y: "+formater.numberFormat("4,434.455.466.4"));
-      alert("RESULT y: "+formater.numberFormat("45.566.666,434.455.466.4"));
-      alert("RESULT y: "+formater.numberFormat("45.434.455,466.466"));
-      alert("RESULT y: "+formater.numberFormat("45.434.455.466.466,3"));
-      alert("RESULT n: "+formater.numberFormat("45,434.455,466.4"));
-      alert("RESULT n: "+formater.numberFormat("45.434.455,466.4"));
-      alert("RESULT n: "+formater.numberFormat("45.5r6.666,434.455.466.4"));
-      alert("RESULT n: "+formater.numberFormat("45.56.66,434.455.466.4"));
-      alert("RESULT n: "+formater.numberFormat("2.344,432.234,3"));
-      alert("RESULT y: "+formater.toNumberFormat(2.3444));
-      alert("RESULT y: "+formater.toNumberFormat(243543.5567));
-      alert("RESULT y: "+formater.toNumberFormat(2435435567));
-      alert("RESULT y: "+formater.toNumberFormat(0.5567));*/
-      
 
       //---------------------------------------------------------------
       $scope.onEditClick = function(year){
@@ -58,35 +43,32 @@ app.directive('tableEdit',
         };
         for(var monthNumber in $scope.tableData.years[year].months){
           var month = $scope.tableData.years[year].months[monthNumber];
-          if(!month.isNew  || (month["amount"]>0 || month["bedroom_count"]>0)){
-            /*alert(month.amount+" - "+ month.bedroom_count);
-            alert(typeof (""+month.amount));
-            alert(typeof (""+month.bedroom_count));*/
-            var validAmount = formater.fromNumberFormat(String(month.amount));
-            var validBedroomsCount = formater.fromNumberFormat(String(month.bedroom_count));
-            if(validAmount == null){
-              alert("Error en el valor del monto '"+month.amount+"', en el mes de "+$scope.months[monthNumber]);
-              return null;
-            }
-            if(validBedroomsCount==null){
-              alert("Error en el valor de cantidad de cuartos '"+month.bedroom_count+"', en el mes de "+$scope.months[monthNumber]);
-              return null;
-            }
-            data.months.push({
-              amount: validAmount,
-              bedroom_count: validBedroomsCount,
-              number : monthNumber
-            });
+          var validAmount = formater.fromNumberFormat(String(month.amount));
+          var validBedroomsCount = formater.fromNumberFormat(String(month.bedroom_count));
+
+          if(validAmount == null){
+            alert("Error en el valor de la facturación '"+month.amount+"', en el mes de "+$scope.months[monthNumber]);
+            return null;
           }
+          if(validBedroomsCount==null){
+            alert("Error en el valor de cantidad de cuartos '"+month.bedroom_count+"', en el mes de "+$scope.months[monthNumber]);
+            return null;
+          }
+          data.months.push({
+            amount: validAmount,
+            bedroom_count: validBedroomsCount,
+            number : monthNumber
+          });
         };
         $scope.editing[year]=!$scope.editing[year];
+
         reqHandlers.properties_data.update(
           data, 
           function(response){
             $scope.reloadData($scope.propertySelected);
             alert("Guardado exitoso.");
           }, 
-          function(){
+          function(response){
             alert("Error al actualizar los datos, contacte al administrador.");
           });
         //console.log(data);

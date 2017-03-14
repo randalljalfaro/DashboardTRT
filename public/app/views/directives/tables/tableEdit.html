@@ -19,11 +19,11 @@
 			<div class="well" ng-if="data_length && data_length > 0">
 				<div>
 					<b>Total de cuartos: </b>
-					<label>{{tableData.totals.bedroom_count}}</label>
+					<label>{{formater.toNumberFormat(tableData.totals.bedroom_count)}}</label>
 				</div>
 				<div>
 					<b>Total del monto: </b>
-					<label>${{tableData.totals.amount}}</label>
+					<label>${{formater.toNumberFormat(tableData.totals.amount)}}</label>
 				</div>
 			</div>
 			<table  ng-if="data_length && data_length > 0" class="table well">
@@ -42,12 +42,12 @@
 								{{year}}
 								<div>
 									<label>
-										<b>Total de cuartos: </b>{{tableData.years[year].totals['bedroom_count']}}
+										<b>Total de cuartos: </b>{{formater.toNumberFormat(tableData.years[year].totals['bedroom_count'])}}
 									</label>
 								</div>
 								<div>
 									<label>
-										<b>Total facturación: </b>${{tableData.years[year].totals['amount']}}
+										<b>Total facturación: </b>${{formater.toNumberFormat(tableData.years[year].totals['amount'])}}
 									</label>
 								</div>
 							</div>

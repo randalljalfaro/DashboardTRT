@@ -1,5 +1,6 @@
 app.factory('formater', function() {
 	function toNumberFormat(num){
+		//console.log(num);
 		var arrayStr = (""+num).split(".");
 		if(arrayStr.length>2){
 			return null;
@@ -32,7 +33,8 @@ app.factory('formater', function() {
 		if(str.length==0){
 			return null;
 		}
-		var arrayStr = str.split(",");
+
+		var arrayStr = (String(str)).split(",");
 		if(arrayStr.length==0 || arrayStr.length>2){
 			return null;
 		}
@@ -97,7 +99,7 @@ app.factory('formater', function() {
 	}
 
 	function reverse(str){
-		return str.split("").reverse().join("")+"";
+		return (""+str).split("").reverse().join("")+"";
 	}
 
 	return { 

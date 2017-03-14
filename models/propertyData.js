@@ -172,7 +172,7 @@ module.exports.updateData = function(property, channel, year, months, cb){
 		monthsData.push({
 			number : parseInt(m.number),
 			bedroom_count : parseInt(m.bedroom_count),
-			amount : parseInt(m.amount),
+			amount : parseFloat(m.amount),
 		});
 	}
 	PropertyData.find(query, function(err, property_data){

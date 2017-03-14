@@ -56,7 +56,7 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 				}
 			}
 		}
-		console.log("** --> "+JSON.stringify(query,null, 2));
+		//console.log("** --> "+JSON.stringify(query,null, 2));
 		Property.find(query).populate('channels').exec(function(err, properties) {
 			responseManager.checkAndReponse(err, res, properties);
 		});

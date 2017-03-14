@@ -31,6 +31,7 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 		PropertyData.findPropertyData(
 			propertyId, channels, fromMonth, fromYear, toMonth, toYear, 
 			function (err, property_data) {
+				//console.log(JSON.stringify(property_data,null, 2));
 				responseManager.checkAndReponse(err, res, property_data);
 			});
 		
@@ -42,6 +43,7 @@ router.post('/update', authManager.ensureAuthenticated, function(req, res){
 	var channel = req.body.channel;
 	var year = req.body.year;
 	var months = req.body.months;
+	//console.log(JSON.stringify(req.body.months,null, 2));
 	PropertyData.updateData(property, channel, year, months,
 		function(err, property_data){
 			responseManager.checkAndReponse(err, res, property_data);
