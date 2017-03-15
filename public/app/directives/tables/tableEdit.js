@@ -9,7 +9,7 @@ app.directive('tableEdit',
       },
       templateUrl: '/app/views/directives/tables/tableEdit.html',
       controller: ['$scope', function($scope) {
-      $scope.formater = formater;
+        $scope.formater = formater;
       //Función necesaria para quien use cualquiera de los filtros
       $scope.filterCallback = filterCallback;
       $scope.editing = {};
@@ -20,9 +20,9 @@ app.directive('tableEdit',
         years:{},
         totals:{}
       };
-      $scope.propertySelected="";
-      $scope.data_length=0;
-      $scope.channelSelected="";
+      $scope.propertySelected = "";
+      $scope.data_length = 0;
+      $scope.channelSelected = "";
 
       //---------------------------------------------------------------
       $scope.onEditClick = function(year){
@@ -100,9 +100,8 @@ app.directive('tableEdit',
           }
         };
         $scope.totalYearRange = [];
-        for (var year = $scope.filterData.fromYear; year <= $scope.filterData.toYear; year++) {
+        for (var year = $scope.filterData.fromYear; year <= $scope.filterData.toYear; year++){
           $scope.totalYearRange.push(year);
-        //for(var year in tableData.years){
           if(!tableData.years[year]){
             tableData.years[year] = {
               months: {}, 

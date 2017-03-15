@@ -1,6 +1,6 @@
-app.controller("ChannelsCtrl", ["$scope", "$http", "$location", 'requestHandlers', ChannelsCtrl]);
+app.controller("ChannelsCtrl", ["$scope", "$http", "$location", 'requestHandlers', 'filterService', ChannelsCtrl]);
 
-function ChannelsCtrl($scope, $http, $location, reqHandlers) {
+function ChannelsCtrl($scope, $http, $location, reqHandlers, filterService) {
 	$scope.actions = reqHandlers.channels;
 
 	//Pasar los callbacks al requestHandlers
@@ -21,6 +21,7 @@ function ChannelsCtrl($scope, $http, $location, reqHandlers) {
 		get : {
 			success : function (response) {
 				$scope.channels = response.data;
+				filterService.pagination($scope, $scope.channels);
 			},
 			error : function (response) {
 				alert("Error al cargar la información de los canales");
@@ -30,3 +31,4 @@ function ChannelsCtrl($scope, $http, $location, reqHandlers) {
 	}
 	$scope.actions.get(cbs.get.success, cbs.get.error);
 }
+

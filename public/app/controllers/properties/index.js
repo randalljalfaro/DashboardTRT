@@ -1,6 +1,6 @@
-app.controller("PropertiesCtrl", ["$scope", "$http", "$location", 'requestHandlers', PropertiesCtrl]);
+app.controller("PropertiesCtrl", ["$scope", "$http", "$location", 'requestHandlers', 'filterService', PropertiesCtrl]);
 
-function PropertiesCtrl($scope, $http, $location, reqHandlers) {
+function PropertiesCtrl($scope, $http, $location, reqHandlers, filterService) {
 	$scope.actions = reqHandlers.properties;
 	
 	//Pasar los callbacks al requestHandlers
@@ -14,16 +14,17 @@ function PropertiesCtrl($scope, $http, $location, reqHandlers) {
 				refreshProperties();
 			},
 			error : function(response){
-				alert("Ha habido un problema al realizar la eliminación de la propiedad");
+				alert("Ha habido un problema al realizar la eliminación de la propiedad, contacte al administrador.");
 				alert(JSON.stringify(response));
 			}
 		},
 		get : {
 			success : function (response) {
 				$scope.properties = response;
+				filterService.pagination($scope, $scope.properties);
 			},
 			error : function (response) {
-				alert("Error al cargar la información de las propiedades");
+				alert("Error al cargar la información de las propiedades, contacte al administrador.");
 				alert(JSON.stringify(response));
 			}
 		}

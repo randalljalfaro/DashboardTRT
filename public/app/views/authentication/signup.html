@@ -29,9 +29,11 @@
 					<input type="checkbox" name="roles" value="permission.name" ng-model="selectedPermissions[permission.name]">{{permission.label}}</input>
 					<br>
 					<div ng-if="selectedPermissions[permission.name] && permission.divided_by!=null" class="rounded">
-						<div ng-repeat="prop in properties" >
-							<input type="checkbox" ng-model="signup.roles[permission.name][prop._id]">{{prop.name}}</input>
-						</div>
+						<ul ng-repeat="prop in properties" >
+							<li>
+								<input type="checkbox" ng-model="signup.roles[permission.name][prop._id]">{{prop.name}}</input>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>

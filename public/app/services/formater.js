@@ -1,6 +1,5 @@
 app.factory('formater', function() {
 	function toNumberFormat(num){
-		//console.log(num);
 		var arrayStr = (""+num).split(".");
 		if(arrayStr.length>2){
 			return null;

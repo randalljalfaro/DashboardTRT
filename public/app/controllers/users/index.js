@@ -1,6 +1,6 @@
-app.controller("UsersCtrl", ["$scope", "$http", "$location", 'requestHandlers', UsersCtrl]);
+app.controller("UsersCtrl", ["$scope", "$http", "$location", 'requestHandlers', 'filterService', UsersCtrl]);
 
-function UsersCtrl($scope, $http, $location, reqHandlers) {
+function UsersCtrl($scope, $http, $location, reqHandlers, filterService) {
 	$scope.selectedPermissions = {};
 	$scope.actions = reqHandlers.users;
 	reqHandlers.properties.get(
@@ -40,6 +40,7 @@ function UsersCtrl($scope, $http, $location, reqHandlers) {
 		get : {
 			success : function (response) {
 				$scope.users = response.data;
+				filterService.pagination($scope, $scope.users);
 			},
 			error : function (response) {
 				alert("Error al cargar la información de los usuarios, contacte al administrador.");

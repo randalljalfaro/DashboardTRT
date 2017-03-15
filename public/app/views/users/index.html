@@ -1,4 +1,9 @@
 <div class="table-responsive table-striped  table-hover">
+
+	<div>
+		<input ng-model="query" id="search" class="form-control" placeholder="Búsqueda por texto">
+	</div>
+
 	<table class="table">
 		<thead>
 			<tr>
@@ -10,7 +15,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users">
+			<tr ng-repeat="user in  tableData | filter:query | startFrom:currentPage*pageSize | limitTo:pageSize">
 				<td>{{user.complete_name}}</td>
 				<td>{{user.username}}</td>
 				<td>{{user.email}}</td>
@@ -38,6 +43,17 @@
 			</tr>
 		</tbody>
 	</table>
+	
+	<div>
+		<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+			Anterior
+		</button>
+		{{currentPage+1}}/{{numberOfPages()}}
+		<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1">
+			Siguiente
+		</button>
+	</div>
+
 	<a href="#/auth/signup">
 		<button class="btn btn-primary">
 			<span class="glyphicon glyphicon-plus"></span>Crear

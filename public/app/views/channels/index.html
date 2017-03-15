@@ -1,4 +1,9 @@
 <div class="table-responsive table-striped  table-hover">
+
+	<div>
+		<input ng-model="query" id="search" class="form-control" placeholder="Búsqueda por texto">
+	</div>
+	
 	<table class="table">
 		<thead>
 			<tr>
@@ -8,7 +13,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="channel in channels">
+			<tr ng-repeat="channel in tableData | filter:query | startFrom:currentPage*pageSize | limitTo:pageSize">
 				<td>{{channel.name}}</td>
 				<td><a href="http://{{channel.link}}">{{channel.link}}</td>
 				<td>
@@ -24,6 +29,17 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div>
+		<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+			Anterior
+		</button>
+		{{currentPage+1}}/{{numberOfPages()}}
+		<button ng-disabled="currentPage >= getData().length/pageSize - 1" ng-click="currentPage=currentPage+1">
+			Siguiente
+		</button>
+	</div>
+
 	<a href="#/channels/create">
 		<button class="btn btn-primary">
 			<span class="glyphicon glyphicon-plus"></span>Crear
