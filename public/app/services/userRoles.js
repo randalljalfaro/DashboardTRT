@@ -23,6 +23,7 @@ app.factory('userRoles', ["$rootScope","requestHandlers", function($rootScope, r
 
 	function cleanCurrentUser(){
 		$rootScope.user = {
+			_id : "",
 			username : "",
 			complete_name : "",
 			email : "",

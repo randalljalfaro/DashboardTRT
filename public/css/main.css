@@ -48,3 +48,22 @@
     border-radius:5px;
     padding: 10px;
 }
+
+.center{
+  width: 50%;
+  margin: 0 auto;
+}
+
+.parentCenter {
+  text-align: center;
+  padding-left: 30%;
+}
+.childCenter {
+  display: inline-block;
+}
+.forms {
+	min-width: 50% !important;
+}
+.form_labels {
+	min-width: 50% !important;
+}

@@ -30,6 +30,11 @@ app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $ur
 		templateUrl: appDir+"views/users/index.html",
 		controller: "UsersCtrl"
 	})
+	.state("user_profile", {
+		url: "/user/profile",
+		templateUrl: appDir+"views/users/profile.html",
+		controller: "UserProfileCtrl"
+	})
 
 	//Channels
 	.state("channels", {

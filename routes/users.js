@@ -25,8 +25,14 @@ router.delete('/:userId', authManager.ensureAuthenticated, function(req, res){
 	});
 });
 
-router.put('/:userId', authManager.ensureAuthenticated, function(req, res){
-	//Se deben validar los campos antes de guardar
+router.put('/newPassword', authManager.ensureAuthenticated, function(req, res){
+	User.updatePassword(req.body,function(err, result) {
+		responseManager.checkAndReponse(err, res, result);
+	});
+});
+
+router.put('/admin/update', authManager.ensureAuthenticated, function(req, res){
+	//Si el usuario es admin, puede hacer esto, si no no
 	console.log("No está implementado");
 });
 

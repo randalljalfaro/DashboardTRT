@@ -19,6 +19,17 @@ app.factory('requestHandlers', function($http) {
 			url: '/users/'+_id
 		}).then(successCallback, errorCallback);
 	}
+	function new_password_user(data, successCallback, errorCallback){
+		var req = {
+			method: 'PUT',
+			url: '/users/newPassword',
+			headers: {
+				'Content-Type': "application/json"
+			},
+			data: data
+		}
+		$http(req).success(successCallback).error(errorCallback);
+	}
 
 	//*****************************************************************
 	//Channels
@@ -109,7 +120,8 @@ app.factory('requestHandlers', function($http) {
 		users: {
 			get : get_users,
 			getCurrent : get_current_user,
-			delete : delete_user
+			delete : delete_user,
+			newPassword : new_password_user
 		},
 		channels: {
 			get : get_channels,

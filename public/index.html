@@ -45,6 +45,7 @@
 	<!-- Controladores para lógica de los usuarios y autenticación -->
 	<script src="/app/controllers/users/authentication.js"></script>
 	<script src="/app/controllers/users/index.js"></script>
+	<script src="/app/controllers/users/profile.js"></script>
 
 	<!-- Controladores para lógica de los canales -->
 	<script src="/app/controllers/channels/index.js"></script>
@@ -70,6 +71,7 @@
 			<nav>
 				<ul class="nav nav-pills pull-right">
 					<li ng-if="auth.isAuthenticated() && user.rolesType['admin']" role="presentation"><a href="#/users">Usuarios</a></li>
+					<li ng-if="auth.isAuthenticated() && !user.rolesType['admin']" role="presentation"><a href="#/user/profile">Mi perfil</a></li>
 					<li ng-if="auth.isAuthenticated() && user.rolesType['admin']" role="presentation"><a href="#/channels">Canales</a></li>
 					<li ng-if="auth.isAuthenticated() && user.rolesType['admin']" role="presentation"><a href="#/properties">Propiedades</a></li>
 					<li ng-if="auth.isAuthenticated() && (user.rolesType['admin'] || user.rolesType['data_admin'])" role="presentation"><a href="#/properties_data">Datos por propiedad</a></li>
