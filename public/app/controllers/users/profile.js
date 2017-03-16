@@ -23,6 +23,9 @@ function UserProfileCtrl($scope, $location, reqHandlers, $rootScope, userRoles) 
 			if(result.errors) $scope.errors = result.errors;
 			else if(result.result==true) {
 				$scope.errors = [];
+				$scope.passwordChangeData.old = "";
+				$scope.passwordChangeData.new = "";
+				$scope.passwordChangeData.new2 = "";
 				alert("Su contraseña ha sido cambiada.");
 			}
 		}, function(result){
