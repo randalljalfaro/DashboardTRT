@@ -1,11 +1,30 @@
-<properties-filter-by-month section-type="{{sectionType}}"></properties-filter-by-month>
-<div ng-if="!config || !config.data || !config.data.length || config.data.length==0" class="table-responsive table-striped  full well">
+
+<div class="full">
+	<div class="full">
+		<properties-filter-by-month section-type="{{sectionType}}"></properties-filter-by-month>
+	</div>
+
+	<div ng-if="!config || !config.data || !config.data.length || config.data.length==0" class="table-responsive table-striped  full well">
+		<div class="full text-center">
+			<h2>No hay datos para el criterio establecido.</h2>
+		</div>
+	</div>
+
 	<div class="full text-center">
-		<h2>No hay datos para el criterio establecido.</h2>
+		<h2>{{title}}</h2>
+		<div ng-if="config && config.data && config.data.length>0"  class="full">
+			<div ng-repeat="data in config.data" class="oneThird rounded borders text-center spaces">
+				<canvas id="pie" class="chart chart-pie  rounded"
+				chart-data="data" chart-labels="config.labels[$index]" 
+				chart-options="config.options[$index]" chart-colors="config.options[$index].colors"></canvas> 
+				<h4>Total: {{config.totals[$index]}}</h4>
+			</div>
+		</div>
 	</div>
 </div>
-<div ng-if="config && config.data && config.data.length>0" >
+
+<!--div ng-if="config && config.data && config.data.length>0" >
 	<canvas id="pie" class="chart chart-pie borders rounded"
 	chart-data="config.data" chart-labels="config.labels" 
 	chart-options="config.options" chart-colors="config.options.colors" height="300" width="500"></canvas> 
-</div>
+</div-->

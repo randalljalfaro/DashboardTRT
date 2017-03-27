@@ -81,6 +81,7 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 						toYear : $scope.filterData.toYear
 					},
 					function(result){
+						/*
 						var data = {};
 						if(result.length && result.length>0){
 							for(var i=0; i<result.length; i++){
@@ -99,6 +100,8 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 							}
 						}
 						$scope.filterCallback(data, $scope.filterData.propertyId, channels);
+						*/
+						$scope.filterCallback(result, $scope.filterData.propertyId, channelsInfo, $scope.filterData);
 					},
 					function(result){
 						alert("Error al traer los datos de la propiedad desde el servidor.");

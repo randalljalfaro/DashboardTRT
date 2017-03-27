@@ -1,101 +1,162 @@
 app.factory('chartDataFactory', function() {
 	
 	function groupYearByMonth(data, config){
-		var chartData = [];
 		var series = [];
-		var yearIndexes = {};
+		var chartData = [];
+		var dataByYear = {};
 
-		for(var channelId in data){
-			var channel = data[channelId];
-			for(var yearPos in channel.years){
-				var yearData = channel.years[yearPos];
-				//Si no existe el año, agregamos todos los meses en cero
-				if(yearIndexes[yearData.year]==null){
-					chartData.push([0,0,0,0,0,0,0,0,0,0,0,0]);
-					series.push(yearData.year);
-					yearIndexes[yearData.year] = chartData.length - 1;
-				}
-				for(var monthPos in yearData.months){
-					var month = yearData.months[monthPos];
-					var value = month[config.variable];
-					if(value==null)
-						value = 0;
-					chartData[yearIndexes[yearData.year]][month.number] += value;
-				}
+		for(var i in data){
+			if(!dataByYear[data[i]._id.year]){
+				dataByYear[data[i]._id.year] = [0,0,0,0,0,0,0,0,0,0,0,0];
+				series.push(data[i]._id.year);
+			}
+			for(var j in data[i].months){
+				dataByYear[data[i]._id.year][data[i].months[j].number] += data[i].months[j][config.variable];
 			}
 		}
+
+
+
+		for(var year in dataByYear){
+			var yearArray = [];
+			for(var numMonth in dataByYear[year]){
+				yearArray.push(dataByYear[year][numMonth]);
+			}
+			chartData.push(yearArray);
+		}
+
 		return {
 			data : chartData,
 			series : series,
-			options :  getOptions(config)
+			options :  getOptions(config, null, null, null, config.title)
 		}
 	}
 
-	function groupChannelValues(data, config){
+	function groupYearsByChannel(data, config, properties, channels){
 		//var totalChartData = [];
-		config.total = 0;
-		config.data = [];
-		config.labels = [];
-		config.percentages = [];
-		for(var channelId in data){
-			var channel = data[channelId];
-			config.data.push(0);
-			config.labels.push(channel.name);
-			var channelIndex = config.data.length - 1;
-			for(var yearPos in channel.years){
-				var yearData = channel.years[yearPos];
-				//alert(JSON.stringify(yearData.months));
-
-				for(var monthPos in yearData.months){
-					var month = yearData.months[monthPos];
-					var value = month[config.variable];
-					if(value==null)
-						value = 0;
-					config.data[channelIndex] += value;
-					config.total+=value;
-				}
+		var dataByYear = {};
+		//Clasificar por año
+		//Todo lo que se sea del mismo año, se pone en el mismo array
+		for(var i in data){
+			if(!dataByYear[data[i]._id.year]){
+				dataByYear[data[i]._id.year] = {};
 			}
+			if(!dataByYear[data[i]._id.year][data[i]._id.channel]){
+				dataByYear[data[i]._id.year][data[i]._id.channel] = [data[i].months];
+			}
+			else{
+				dataByYear[data[i]._id.year][data[i]._id.channel].push(data[i].months);
+			};
 		}
-		for(var i in config.data){
-			config.percentages.push((100/config.total)*config.data[i]);
+
+		//Clasificar por canal, cada uno de los años
+		var total = 0;
+		var allDataArray = [];
+		var allLabelsArray = [];
+		var allTotalsArray = [];
+		//var allPercArray = [];
+		var allOptionsArray = [];
+
+		for(year in dataByYear){
+			var yearTotal = 0;
+			var dataArray = [];
+			var labelsArray = [];
+			var percArray = [];
+			for(channelId in dataByYear[year]){
+				var channelYearTotal = 0;
+				for(i in dataByYear[year][channelId]){
+					var months = dataByYear[year][channelId][i];
+					for(j in months){
+						channelYearTotal += months[j][config.variable];
+					}
+				}
+				total += channelYearTotal;
+				yearTotal += channelYearTotal;
+				dataArray.push(channelYearTotal);
+				labelsArray.push(channels[channelId].name);
+			}
+			for(i in dataArray){
+				percArray.push((100/yearTotal)*dataArray[i]);
+			}
+			allDataArray.push(dataArray);
+			allLabelsArray.push(labelsArray);
+			allTotalsArray.push(yearTotal);
+			//allPercArray.push(percArray);
+			allOptionsArray.push(getOptions(config, dataArray, labelsArray, percArray, 
+				"Año "+year));
 		}
+
 		return {
-			data : config.data,
-			labels : config.labels,
-			options :  getOptions(config)
+			data : allDataArray,
+			labels : allLabelsArray,
+			//percentages : allPercArray,
+			totals : allTotalsArray,
+			total : total,
+			options : allOptionsArray
 		}
+
+
 	}
 
-	function groupChannelByMonth(data, config){
+	function groupChannelByMonth(data, config, properties, channels, filterConfig){
 		var chartData = [];
 		var series = [];
+		var labels = [];
 
-		for(var channelId in data){
-			var channel = data[channelId];
-			var anualArray = [0,0,0,0,0,0,0,0,0,0,0,0];
-			for(var yearPos in channel.years){
-				var yearData = channel.years[yearPos];
-				for(var monthPos in yearData.months){
-					var month = yearData.months[monthPos];
-					var value = month[config.variable];
-					if(value==null)
-						value = 0;
-					anualArray[month.number] += value;
+		var fromYear = Number(filterConfig.fromYear);
+		var toYear = Number(filterConfig.toYear);
+
+		var dataByChannel = {};
+		for(var i in data){
+			var channelId = data[i]._id.channel;
+			if(!dataByChannel[channelId]){
+				dataByChannel[channelId] = {};
+				//Con esto se rellenan todos los años y los meses con cero
+				for(var year=fromYear; year<=toYear; year++){
+					dataByChannel[channelId][year] = {};
+					for(var numMonth=0; numMonth<12; numMonth++){
+						dataByChannel[channelId][year][numMonth] = 0;
+					}
 				}
 			}
-			chartData.push(anualArray);
-			series.push(channel.name);
+
+			// Se sobreescriben los valores reales
+			for(var j in data[i].months){
+				var numMonth = data[i].months[j].number;
+				dataByChannel[channelId][data[i]._id.year][numMonth] = data[i].months[j][config.variable];
+			}
+		}
+		//console.log(dataByChannel);
+
+		for(var channelId in dataByChannel){
+			var dataArray = [];
+			for(var year in dataByChannel[channelId]){
+				for(var numMonth in dataByChannel[channelId][year]){
+					dataArray.push(dataByChannel[channelId][year][numMonth]);
+				}
+			}
+			series.push(channels[channelId].name);
+			chartData.push(dataArray);
+		}
+
+		for(var year=fromYear; year<=toYear; year++){
+			var strYear = (""+year);
+			var lastDigits = strYear.substring(strYear.length-2, strYear.length);
+			for(var numMonth=1; numMonth<=12; numMonth++){
+				labels.push(numMonth+"/"+lastDigits);
+			}
 		}
 
 		return {
 			data : chartData,
 			series : series,
-			options :  getOptions(config)
+			labels : labels,
+			options :  getOptions(config, null, null, null, config.title)
 		}
 	}
 
 
-	function getOptions(config){
+	function getOptions(config, data, labels, percentages, title){
 		//
 		var options = {
 			colors : ["#97BBCD", "#F74654","#46BFBD", "#FDB45C", "#228B22", 
@@ -107,7 +168,7 @@ app.factory('chartDataFactory', function() {
 			barDatasetSpacing: 3,
 			title: {
 				display: true,
-				text: config.title,
+				text: title,
 				fontSize: 30,
 				fontColor:"#000",
 				padding:50
@@ -134,7 +195,7 @@ app.factory('chartDataFactory', function() {
 				}
 			}
 		};
-		if(config.type=="bar" || config.type=="line" ){
+		if(config.type=="bar" || config.type=="line" ) {
 			options.scales = {
 				yAxes: [{
 					scaleLabel: {
@@ -165,7 +226,8 @@ app.factory('chartDataFactory', function() {
 					}
 				}]
 			};
-		}else{
+		}
+		else {
 			options.animation={
 				duration: 0,
 				onComplete: update,
@@ -183,12 +245,7 @@ app.factory('chartDataFactory', function() {
 
 				Chart.helpers.each(self.data.datasets.forEach(function (dataset, datasetIndex) {
 					var meta = self.getDatasetMeta(datasetIndex),
-					labelxy = [],
-					offset = Math.PI / 2, 
-					radius,
-					centerx,
-					centery, 
-					lastend = 0; 
+					labelxy = [], offset = Math.PI / 2, radius, centerx, centery, lastend = 0; 
 
 					Chart.helpers.each(meta.data.forEach( function (element, index) {
 						radius = 0.9 * element._model.outerRadius - element._model.innerRadius;
@@ -214,13 +271,13 @@ app.factory('chartDataFactory', function() {
 						dy = centery + lradius * Math.sin(langle);
 						//if(val>=5 || $scope.config.showLowerValues){
 							//if($scope.config.showName){
-								ctx.fillText(config.labels[i], dx, dy-40);
+								ctx.fillText(labels[i], dx, dy-40);
 							//}
 							//if($scope.config.showPerc){
-								ctx.fillText(config.percentages[i].toFixed(3) + '%', dx, dy-15);
+								ctx.fillText(percentages[i].toFixed(3) + '%', dx, dy-15);
 							//}
 							//if($scope.config.showValues){
-								ctx.fillText(config.data[i], dx, dy+10);
+								ctx.fillText(data[i], dx, dy+10);
 							//}
 						//ctx.fillText($attrs.symbol+' '+mathUtil.format(dataset.data[idx],2), dx, dy+40);
 						//}
@@ -234,7 +291,7 @@ app.factory('chartDataFactory', function() {
 	}
 	return {
 		groupYearByMonth : groupYearByMonth,
-		groupChannelValues : groupChannelValues,
+		groupYearsByChannel : groupYearsByChannel,
 		groupChannelByMonth : groupChannelByMonth
 	};
 });

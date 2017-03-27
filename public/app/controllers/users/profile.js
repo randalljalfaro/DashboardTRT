@@ -20,7 +20,12 @@ function UserProfileCtrl($scope, $location, reqHandlers, $rootScope, userRoles) 
 	}
 	$scope.changePassword = function(){
 		reqHandlers.users.newPassword($scope.passwordChangeData, function(result){
-			if(result.errors) $scope.errors = result.errors;
+			if(result.errors) {
+				$scope.passwordChangeData.old = "";
+				$scope.passwordChangeData.new = "";
+				$scope.passwordChangeData.new2 = "";
+				$scope.errors = result.errors;
+			}
 			else if(result.result==true) {
 				$scope.errors = [];
 				$scope.passwordChangeData.old = "";

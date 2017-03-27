@@ -22,11 +22,11 @@ function ReportsCtrl($scope) {
 		}
 		else if($scope.plotType=="1"){
 			if ($scope.plotSubType=="0") {
-				$scope.plotTitle = "Facturación total por canal";
+				$scope.plotTitle = "Facturación por canal";
 				$scope.plotVariable = "amount";
 			}
 			else{
-				$scope.plotTitle = "Cantidad de cuartos total por canal";
+				$scope.plotTitle = "Cantidad de cuartos por canal";
 				$scope.plotVariable = "bedroom_count";
 			}
 		}

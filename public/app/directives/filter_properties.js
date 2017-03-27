@@ -14,6 +14,17 @@ app.directive('filterProperties', ["requestHandlers", function(reqHandlers) {
         toYear : (new Date().getFullYear())+"",
         toMonth: "diciembre"
       };
+
+      var channelsInfo = {};
+      reqHandlers.channels.get(
+        function (response){
+          for(var i in response.data){
+            var ch = response.data[i];
+            channelsInfo[ch._id] = ch;
+          }
+        }, function(){});
+
+
       $scope.channels = [];
 
       $scope.properties = [];
@@ -83,8 +94,9 @@ app.directive('filterProperties', ["requestHandlers", function(reqHandlers) {
             toYear : $scope.data.toYear
           },
           function(result){
-            if(result.length && result.length>0)
-              $scope.filterCallback(result, $scope.data.propertyId);
+            if(result.length && result.length>0){
+              $scope.filterCallback(result, $scope.data.propertyId, channelsInfo);
+            }
             else
               $scope.filterCallback([]);
             //alert(JSON.stringify(result));

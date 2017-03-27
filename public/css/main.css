@@ -27,12 +27,14 @@
 	float: left;
 }
 .oneThird{
-	width: 33% !important;
+	width: 30% !important;
 	float: left;
 	display: inline-block;
 }
 .full {
 	width: 100% !important;
+	display: block;
+	float: right;
 }
 .centerContent{
 	padding-top: 50%;
@@ -41,7 +43,7 @@
 	background: url(../images/cityBackground.png) no-repeat center center fixed; 
 }
 .spaces{
-	margin-top: 10px;
+	margin: 5px;
 }
 .borders{
     border: 3px solid #dedede;

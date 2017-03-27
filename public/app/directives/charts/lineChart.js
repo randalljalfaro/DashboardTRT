@@ -12,18 +12,21 @@ app.directive('lineChart', ['chartDataFactory', function(chartDataFactory) {
     controller: ['$scope', function($scope) {
       $scope.type = "line";
       $scope.sectionType = "reports";
-      $scope.labels = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 
-      'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre'];
 
       var lastResult = [];
-      $scope.filterCallback = function(result){
+      var lastProperties = [];
+      var lastChannels = [];
+      var lastFilterConfig = [];
+      $scope.filterCallback = function(result, properties, channels, filterConfig){
         lastResult = result;
-        $scope.config = chartDataFactory.groupChannelByMonth(result, $scope);
+        lastProperties = [properties];
+        lastChannels = channels;
+        lastFilterConfig = filterConfig;
+        $scope.config = chartDataFactory.groupChannelByMonth(lastResult, $scope, lastProperties, lastChannels, lastFilterConfig);
       }
 
       $scope.$watch('variable',function(){
-        $scope.config = chartDataFactory.groupChannelByMonth(lastResult, $scope);
+        $scope.config = chartDataFactory.groupChannelByMonth(lastResult, $scope, lastProperties, lastChannels, lastFilterConfig);
       })
 
     }]

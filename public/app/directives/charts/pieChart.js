@@ -11,13 +11,18 @@ app.directive('pieChart', ['chartDataFactory', function(chartDataFactory) {
       $scope.type = "pie";
       $scope.sectionType = "reports";
       var lastResult = [];
-      $scope.filterCallback = function(result){
+      var lastProperties = [];
+      var lastChannels = [];
+      $scope.filterCallback = function(result, properties, channels){
         lastResult = result;
-        $scope.config = chartDataFactory.groupChannelValues(result, $scope);
+        //Esto es por ahora, se debe permitir que vengan varias propiedades
+        lastProperties = [properties];
+        lastChannels = channels;
+        $scope.config = chartDataFactory.groupYearsByChannel(lastResult, $scope, lastProperties, lastChannels);
       }
 
       $scope.$watch('variable',function(){
-        $scope.config = chartDataFactory.groupChannelValues(lastResult, $scope);
+        $scope.config = chartDataFactory.groupYearsByChannel(lastResult, $scope, lastProperties, lastChannels);
       })
 
     }]

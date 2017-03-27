@@ -18,8 +18,10 @@ app.directive('barChart', ['chartDataFactory', function(chartDataFactory) {
       $scope.labels = [
       'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 
       'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre'];
+      
       $scope.filterCallback = function(result){
         lastResult = result;
+
         $scope.config = chartDataFactory.groupYearByMonth(result, $scope);
       }
 
