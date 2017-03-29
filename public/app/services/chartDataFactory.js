@@ -1,4 +1,121 @@
-app.factory('chartDataFactory', function() {
+app.factory('chartDataFactory', ['formater', function(formater) {
+
+	function groupForTableEdit(data, properties, channels){
+		//Se asume que solo viene un canal
+		var tableData = {};
+		var monthlyTotals = {};
+		var yearTotals = {};
+		var channelYearTotals = {};
+
+		for(var i in data){
+			if(!tableData[data[i]._id.year]){
+				//Categorización de los datos por año
+				tableData[data[i]._id.year] = {};
+				//Totales mensuales por año de cada variable
+				monthlyTotals[data[i]._id.year] = {
+					"0":{amount: 0, bedroom_count: 0},
+					"1":{amount: 0, bedroom_count: 0},
+					"2":{amount: 0, bedroom_count: 0},
+					"3":{amount: 0, bedroom_count: 0},
+					"4":{amount: 0, bedroom_count: 0},
+					"5":{amount: 0, bedroom_count: 0},
+					"6":{amount: 0, bedroom_count: 0},
+					"7":{amount: 0, bedroom_count: 0},
+					"8":{amount: 0, bedroom_count: 0},
+					"9":{amount: 0, bedroom_count: 0},
+					"10":{amount: 0, bedroom_count: 0},
+					"11":{amount: 0, bedroom_count: 0},
+				};
+				//Totales anuales de cada variable
+				yearTotals[data[i]._id.year] = {
+					amount: 0, bedroom_count: 0
+				};
+				//Sumatoria anual de cada canal, para cada vaiable
+				channelYearTotals[data[i]._id.year] = {};
+			}
+			if(!tableData[data[i]._id.year][data[i]._id.channel]){
+				tableData[data[i]._id.year][data[i]._id.channel] = {
+					"0":{amount: 0, bedroom_count: 0},
+					"1":{amount: 0, bedroom_count: 0},
+					"2":{amount: 0, bedroom_count: 0},
+					"3":{amount: 0, bedroom_count: 0},
+					"4":{amount: 0, bedroom_count: 0},
+					"5":{amount: 0, bedroom_count: 0},
+					"6":{amount: 0, bedroom_count: 0},
+					"7":{amount: 0, bedroom_count: 0},
+					"8":{amount: 0, bedroom_count: 0},
+					"9":{amount: 0, bedroom_count: 0},
+					"10":{amount: 0, bedroom_count: 0},
+					"11":{amount: 0, bedroom_count: 0},
+				};
+				channelYearTotals[data[i]._id.year][data[i]._id.channel] = {
+					amount: 0, bedroom_count: 0
+				};
+			}
+			for(var j in data[i].months){
+				var month = data[i].months[j];
+				tableData[data[i]._id.year][data[i]._id.channel][""+month.number].amount += month.amount;
+				tableData[data[i]._id.year][data[i]._id.channel][""+month.number].bedroom_count += month.bedroom_count;
+				monthlyTotals[data[i]._id.year][""+month.number].amount += month.amount;
+				monthlyTotals[data[i]._id.year][""+month.number].bedroom_count += month.bedroom_count;
+				yearTotals[data[i]._id.year].amount += month.amount;
+				yearTotals[data[i]._id.year].bedroom_count += month.bedroom_count;
+				channelYearTotals[data[i]._id.year][data[i]._id.channel].amount += month.amount;
+				channelYearTotals[data[i]._id.year][data[i]._id.channel].bedroom_count += month.bedroom_count;
+			}
+		}
+		for (var year in tableData){
+			for (var channelId in tableData[year]){
+				for (var month in tableData[year][channelId]){
+					tableData[year][channelId][month].amount = formater.toNumberFormat(tableData[year][channelId][month].amount);
+					tableData[year][channelId][month].bedroom_count = formater.toNumberFormat(tableData[year][channelId][month].bedroom_count);
+				}
+			}
+		}
+
+		return {
+			tableData : tableData,
+			yearTotals : yearTotals,
+			monthlyTotals : monthlyTotals,
+			channelYearTotals : channelYearTotals
+		};
+	}
+
+	function groupForTable(data){
+		var monthlyTotal = {};
+		var yearTotals = {
+			amount: {}, bedroom_count: {}
+		};
+		var channelYearTotals = {
+			amount: {}, bedroom_count: {}
+		};
+
+		for(var i in data){
+			if(!monthlyTotal[data[i]._id.year]){
+				monthlyTotal[data[i]._id.year] = {};
+				yearTotals.amount[data[i]._id.year] = {};
+				yearTotals.bedroom_count[data[i]._id.year] = {};
+				channelYearTotals[data[i]._id.year] = 0;
+			}
+			if(!monthlyTotal[data[i]._id.year][data[i]._id.channel]){
+				monthlyTotal[data[i]._id.year][data[i]._id.channel] = {};
+				yearTotals.amount[data[i]._id.year][data[i]._id.channel] = 0;
+				yearTotals.bedroom_count[data[i]._id.year][data[i]._id.channel] = 0;
+				ol[data[i]._id.year][data[i]._id.channel] = 0;
+			}
+			for(var j in data[i].months){
+				var month = data[i].months[j];
+				monthlyTotal[data[i]._id.year][data[i]._id.channel][month] = month;
+				yearTotals.amount[data[i]._id.year] = 0;
+				yearTotals.bedroom_count[data[i]._id.year] = 0;
+			}
+		}
+		return {
+			grouped : monthlyTotal,
+			yearTotals : yearTotals,
+			channelYearTotals : channelYearTotals
+		};
+	}
 	
 	function groupYearByMonth(data, config){
 		var series = [];
@@ -290,8 +407,10 @@ app.factory('chartDataFactory', function() {
 		return options;
 	}
 	return {
+		groupForTable : groupForTable,
+		groupForTableEdit : groupForTableEdit,
 		groupYearByMonth : groupYearByMonth,
 		groupYearsByChannel : groupYearsByChannel,
 		groupChannelByMonth : groupChannelByMonth
 	};
-});
+}]);

@@ -64,7 +64,6 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 			function reloadData(property){
 				if(property){
 					var channels = [];
-					//alert(JSON.stringify($scope.filterData.channelsSelected));
 					for(var channel in $scope.filterData.channelsSelected){
 						if($scope.filterData.channelsSelected[channel]){
 							channels.push(channel);
@@ -81,34 +80,34 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 						toYear : $scope.filterData.toYear
 					},
 					function(result){
-						/*
-						var data = {};
-						if(result.length && result.length>0){
-							for(var i=0; i<result.length; i++){
-								var channelId = result[i]._id.channel;
-								var year = result[i]._id.year;
-								if(!data[channelId]){
-									data[channelId] = {
-										years : [],
-										name : channelsInfo[channelId].name
-									}
-								}
-								data[channelId].years.push({
-									year: year,
-									months: result[i].months
-								});
-							}
-						}
-						$scope.filterCallback(data, $scope.filterData.propertyId, channels);
-						*/
 						$scope.filterCallback(result, $scope.filterData.propertyId, channelsInfo, $scope.filterData);
 					},
 					function(result){
 						alert("Error al traer los datos de la propiedad desde el servidor.");
-						//alert(JSON.stringify(result));
 					});
 				}
 			}
 		}]
 	};
 }]);
+
+/*
+var data = {};
+if(result.length && result.length>0){
+	for(var i=0; i<result.length; i++){
+		var channelId = result[i]._id.channel;
+		var year = result[i]._id.year;
+		if(!data[channelId]){
+			data[channelId] = {
+				years : [],
+				name : channelsInfo[channelId].name
+			}
+		}
+		data[channelId].years.push({
+			year: year,
+			months: result[i].months
+		});
+	}
+}
+$scope.filterCallback(data, $scope.filterData.propertyId, channels);
+*/
