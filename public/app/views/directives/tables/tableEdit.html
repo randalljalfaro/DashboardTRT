@@ -12,11 +12,10 @@
 		<properties-filter-by-month section-type="{{sectionType}}"></properties-filter-by-month>
 	</div>
 
-	<div class="full text-center"  ng-if="dataLength==0">
+	<div class="full text-center"  ng-if="!editable && dataLength==0">
 		<h2>No hay datos para el criterio establecido.</h2>
 	</div>
-
-	<div ng-if="dataLength>0">
+	<div ng-if="editable || (!editable && dataLength>0)">
 		<div class="table-responsive table-striped  table-hover full text-center borders" ng-repeat="year in allYears">
 			<h3>{{year}}</h3>
 			<table class="table well" >
@@ -28,12 +27,14 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="text-center">{{formater.toNumberFormat(yearTotals[year].bedroom_count)}}</td>
-						<td class="text-center">${{formater.toNumberFormat(yearTotals[year].amount)}}</td>
+						<td ng-if="yearTotals[year].bedroom_count" class="text-center">{{formater.toNumberFormat(yearTotals[year].bedroom_count)}}</td>
+						<td ng-if="!yearTotals[year].bedroom_count" class="text-center">0</td>
+						<td ng-if="yearTotals[year].amount" class="text-center">${{formater.toNumberFormat(yearTotals[year].amount)}}</td>
+						<td ng-if="!yearTotals[year].amount" class="text-center">$0</td>
 					</tr>
 				</tbody>
 			</table>
-			<table  ng-if="dataLength > 0" class="table well half spaces" ng-repeat="(numMonth,month) in months">
+			<table  class="table well half spaces" ng-repeat="(numMonth,month) in months">
 				<caption class="text-center">{{month}}</caption>
 				<thead>
 					<tr>
@@ -50,28 +51,28 @@
 								Edición habilitada solo para un canal
 							</div-->
 							<div>
-								<div ng-if="!editing[year][numMonth]" >
-									<button ng-click='onEditClick(year, numMonth)' class="btn btn-info btn-lg btn-actions">
+								<div ng-if="!editing[year][channelId][numMonth]" >
+									<button ng-click='onEditClick(year, numMonth, channelId)' class="btn btn-info btn-lg btn-actions">
 										<span class="glyphicon glyphicon-edit"></span> Editar
 									</button>
 								</div>
-								<div ng-if="editing[year][numMonth]" >
-									<button ng-click='onSaveClick(year, numMonth)' class="btn btn-success btn-lg btn-actions">
+								<div ng-if="editing[year][channelId][numMonth]" >
+									<button ng-click='onSaveClick(year, numMonth, channelId)' class="btn btn-success btn-lg btn-actions">
 										<span class="glyphicon glyphicon-edit"></span> Guardar
 									</button>
 								</div>
 							</div>
 						</td>
-						<td>{{channels[channelId].name}}</td>
+						<td>{{channelsInfo[channelId].name}}</td>
 						<td ng-if="editable">
-							<input class="text-center" type="text" name="" 
+							<input class="text-center" type="text"
 							ng-model="tableData[year][channelId][numMonth].bedroom_count"
-							ng-readonly="!editing[year][numMonth]">
+							ng-readonly="!editing[year][channelId][numMonth]">
 						</td>
 						<td ng-if="editable">
-							<input class="text-center" type="text" name="" 
+							<input class="text-center" type="text" 
 							ng-model="tableData[year][channelId][numMonth].amount"
-							ng-readonly="!editing[year][numMonth]">
+							ng-readonly="!editing[year][channelId][numMonth]">
 						</td>
 						<td ng-if="!editable">
 							{{tableData[year][channelId][numMonth].bedroom_count}}
@@ -83,8 +84,10 @@
 					<tr>
 						<td ng-if="editable"></td>
 						<td>Total</td>
-						<td>{{monthlyTotals[year][numMonth].bedroom_count}}</td>
-						<td>${{monthlyTotals[year][numMonth].amount}}</td>
+						<td ng-if="monthlyTotals[year][numMonth].bedroom_count" >{{formater.toNumberFormat(monthlyTotals[year][numMonth].bedroom_count)}}</td>
+						<td ng-if="!monthlyTotals[year][numMonth].bedroom_count" >0</td>
+						<td ng-if="monthlyTotals[year][numMonth].amount" >${{formater.toNumberFormat(monthlyTotals[year][numMonth].amount)}}</td>
+						<td ng-if="!monthlyTotals[year][numMonth].amount" >$0</td>
 					</tr>
 				</tbody>
 			</table>

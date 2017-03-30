@@ -22,33 +22,94 @@ app.directive('tableEdit',
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
         'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
-        $scope.onEditClick = function(year, month){
-          if($scope.editing[year][month]==null){
-            $scope.editing[year][month]=true;
+        $scope.onEditClick = function(year, numMonth, channelId){
+          if($scope.editing[year][channelId][numMonth]==null){
+            $scope.editing[year][channelId][numMonth]=true;
           }else{
-            $scope.editing[year][month]=!$scope.editing[year][month];
+            $scope.editing[year][channelId][numMonth]=!$scope.editing[year][channelId][numMonth];
           }
         }
 
-        $scope.onSaveClick = function(year){
-          $scope.editing[year][month] = false;
+        $scope.onSaveClick = function(year, numMonth, channelId){
+          var data = {
+            property: $scope.propertySelected,
+            channel: channelId,
+            year: year,
+            months:[]
+          };
+
+          for(var monthNum in $scope.tableData[year][channelId]){
+            var month = $scope.tableData[year][channelId][monthNum];
+            var validAmount = formater.fromNumberFormat(String(month.amount));
+            var validBedroomsCount = formater.fromNumberFormat(String(month.bedroom_count));
+
+            if(validAmount == null){
+              alert("Error en el valor de la facturación '"+month.amount+"', en el mes de "+$scope.months[monthNum]);
+              return null;
+            }
+            if(validBedroomsCount==null){
+              alert("Error en el valor de cantidad de cuartos '"+month.bedroom_count+"', en el mes de "+$scope.months[monthNum]);
+              return null;
+            }
+            data.months.push({
+              amount: validAmount,
+              bedroom_count: validBedroomsCount,
+              number : monthNum
+            });
+          };
+
+          reqHandlers.properties_data.update(
+            data, 
+            function(response){
+              $scope.reloadData($scope.propertySelected);
+              $scope.editing[year][channelId][numMonth] = false;
+              alert("Guardado exitoso.");
+            }, 
+            function(response){
+              alert("Error al actualizar los datos, contacte al administrador.");
+            });
         }
 
         function filterCallback(data, properties, channels){
-          $scope.dataLength = data.length;
-          $scope.channelsLength = channels.length;
-          $scope.channels = channels;
+          if(data){
+            $scope.propertySelected = properties;
+            $scope.dataLength = data.length;
+            $scope.dataLength = data.length;
+            $scope.channelsLength = channels.length;
+            $scope.channelsInfo = channels;
 
-          var config = chartDataFactory.groupForTableEdit(data);
+            var config = chartDataFactory.groupForTableEdit(data);
 
-          $scope.tableData = config.tableData;
-          $scope.yearTotals = config.yearTotals;
-          $scope.monthlyTotals = config.monthlyTotals;
-          $scope.channelYearTotals = config.channelYearTotals;
+            $scope.tableData = config.tableData;
+            $scope.yearTotals = config.yearTotals;
+            $scope.monthlyTotals = config.monthlyTotals;
+            $scope.channelYearTotals = config.channelYearTotals;
+          }
           $scope.allYears = [];
 
           for (var year = Number($scope.filterData.fromYear); year <= Number($scope.filterData.toYear); year++){
             $scope.allYears.push(year);
+            $scope.editing[year] = {};
+          }
+
+          for(var year in $scope.editing){
+            for(var channelId in channels){
+              $scope.editing[year][channelId] = {};
+              for(var numMonth=0; numMonth<12; numMonth ++){
+                $scope.editing[year][channelId][numMonth] = false;
+                if(!$scope.tableData[year]){
+                  $scope.tableData[year] = {};
+                }
+                if(!$scope.tableData[year][channelId]){
+                  $scope.tableData[year][channelId] = {};
+                }
+                if(!$scope.tableData[year][channelId][numMonth]){
+                  $scope.tableData[year][channelId][numMonth] = {
+                    amount: 0, bedroom_count: 0
+                  }
+                }
+              }
+            }
           }
 
         };

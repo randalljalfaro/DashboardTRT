@@ -64,11 +64,17 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 			function reloadData(property){
 				if(property){
 					var channels = [];
+					var channelsFilterInfo = {};
 					for(var channel in $scope.filterData.channelsSelected){
 						if($scope.filterData.channelsSelected[channel]){
 							channels.push(channel);
+							channelsFilterInfo[channel] = channelsInfo[channel];
 						}
 					}
+					/*if(channels.length == 0 ){
+						channelsFilterInfo = channelsInfo;
+					}*/
+					console.log(channelsFilterInfo);
 
 					reqHandlers.properties_data.get(
 					{
@@ -80,7 +86,7 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 						toYear : $scope.filterData.toYear
 					},
 					function(result){
-						$scope.filterCallback(result, $scope.filterData.propertyId, channelsInfo, $scope.filterData);
+						$scope.filterCallback(result, $scope.filterData.propertyId, channelsFilterInfo, $scope.filterData);
 					},
 					function(result){
 						alert("Error al traer los datos de la propiedad desde el servidor.");
