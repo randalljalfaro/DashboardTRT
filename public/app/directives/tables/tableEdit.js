@@ -75,7 +75,7 @@ app.directive('tableEdit',
             $scope.propertySelected = properties;
             $scope.dataLength = data.length;
             $scope.dataLength = data.length;
-            $scope.channelsLength = channels.length;
+            //$scope.channelsLength = channels.length;
             $scope.channelsInfo = channels;
 
             var config = chartDataFactory.groupForTableEdit(data);

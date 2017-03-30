@@ -21,14 +21,23 @@
 			<table class="table well" >
 				<thead>
 					<tr>
+						<th class="text-center">Canal</th>
 						<th class="text-center">Cantidad de cuartos</th>
 						<th class="text-center">Facturación</th>
 					</tr>
 				</thead>
 				<tbody>
+					<tr ng-repeat="(channelId, channel) in channelsInfo">
+						<td>{{channelsInfo[channelId].name}}</td>
+						<td ng-if="channelYearTotals[year][channelId]" class="text-center">{{formater.toNumberFormat(channelYearTotals[year][channelId].bedroom_count)}}</td>
+						<td ng-if="!channelYearTotals[year][channelId]" class="text-center">0</td>
+						<td ng-if="channelYearTotals[year][channelId]" class="text-center">{{formater.toNumberFormat(channelYearTotals[year][channelId].amount)}}</td>
+						<td ng-if="!channelYearTotals[year][channelId]" class="text-center">$0</td>
+					</tr>
 					<tr>
-						<td ng-if="yearTotals[year].bedroom_count" class="text-center">{{formater.toNumberFormat(yearTotals[year].bedroom_count)}}</td>
-						<td ng-if="!yearTotals[year].bedroom_count" class="text-center">0</td>
+						<td>Total</td>
+						<td ng-if="yearTotals[year]" class="text-center">{{formater.toNumberFormat(yearTotals[year].bedroom_count)}}</td>
+						<td ng-if="!yearTotals[year]" class="text-center">0</td>
 						<td ng-if="yearTotals[year].amount" class="text-center">${{formater.toNumberFormat(yearTotals[year].amount)}}</td>
 						<td ng-if="!yearTotals[year].amount" class="text-center">$0</td>
 					</tr>
