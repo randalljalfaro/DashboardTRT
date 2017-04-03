@@ -1,4 +1,4 @@
-app.directive('pieChart', ['chartDataFactory', function(chartDataFactory) {
+app.directive('pieChart', ['chartDataFactory', 'formater', function(chartDataFactory, formater) {
   return {
     restrict: 'E',
     transclude: true,
@@ -8,6 +8,7 @@ app.directive('pieChart', ['chartDataFactory', function(chartDataFactory) {
     },
     templateUrl: '/app/views/directives/charts/pieChart.html',
     controller: ['$scope', function($scope) {
+      $scope.formater = formater;
       $scope.type = "pie";
       $scope.sectionType = "reports";
       var lastResult = [];

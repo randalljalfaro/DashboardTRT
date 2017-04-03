@@ -199,8 +199,7 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 			allLabelsArray.push(labelsArray);
 			allTotalsArray.push(yearTotal);
 			//allPercArray.push(percArray);
-			allOptionsArray.push(getOptions(config, dataArray, labelsArray, percArray, 
-				"Año "+year));
+			allOptionsArray.push(getOptions(config, dataArray, labelsArray, percArray, year, yearTotal));
 		}
 
 		return {
@@ -273,7 +272,7 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 	}
 
 
-	function getOptions(config, data, labels, percentages, title){
+	function getOptions(config, data, labels, percentages, title, yearTotal){
 		//
 		var options = {
 			colors : ["#97BBCD", "#F74654","#46BFBD", "#FDB45C", "#228B22", 
@@ -350,6 +349,18 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 				onComplete: update,
 				onProgress: update
 			};
+
+			options.legend = {
+				display: true,
+				position : "left",
+				fullWidth:true,
+				labels : {
+					fontSize:25,
+					padding: 20,
+					fontColor:"#000"
+				}
+			};
+
 			function update() {
 				var self = this,
 				chartInstance = this.chart,
@@ -363,14 +374,13 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 				Chart.helpers.each(self.data.datasets.forEach(function (dataset, datasetIndex) {
 					var meta = self.getDatasetMeta(datasetIndex),
 					labelxy = [], offset = Math.PI / 2, radius, centerx, centery, lastend = 0; 
-
 					Chart.helpers.each(meta.data.forEach( function (element, index) {
 						radius = 0.9 * element._model.outerRadius - element._model.innerRadius;
 						centerx = element._model.x;
 						centery = element._model.y;
-						var thispart = dataset.data[index],
-						arcsector = Math.PI * (2 * thispart / config.total);
-						if (element.hasValue() && dataset.data[index] > 0) {
+						var thispart = data[index],
+						arcsector = Math.PI * (2 * thispart / yearTotal);
+						if (element.hasValue() && data[index] > 0) {
 							labelxy.push(lastend + arcsector / 2 + Math.PI + offset);
 						}
 						else {
@@ -381,6 +391,7 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 
 					var lradius = radius * 3 / 4;
 					var i = 0;
+					console.log(labelxy);
 					for (var idx in labelxy) {
 						if (labelxy[idx] === -1) continue;
 						var langle = labelxy[idx],
@@ -388,15 +399,15 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 						dy = centery + lradius * Math.sin(langle);
 						//if(val>=5 || $scope.config.showLowerValues){
 							//if($scope.config.showName){
-								ctx.fillText(labels[i], dx, dy-40);
+								//ctx.fillText(labels[i], dx, dy-40);
 							//}
 							//if($scope.config.showPerc){
-								ctx.fillText(percentages[i].toFixed(3) + '%', dx, dy-15);
+								ctx.fillText(percentages[i].toFixed(1) + '%', dx, dy-15);
 							//}
 							//if($scope.config.showValues){
-								ctx.fillText(data[i], dx, dy+10);
+								ctx.fillText(formater.toNumberFormat(data[i]), dx, dy+10);
 							//}
-						//ctx.fillText($attrs.symbol+' '+mathUtil.format(dataset.data[idx],2), dx, dy+40);
+							//ctx.fillText($attrs.symbol+' '+mathUtil.format(dataset.data[idx],2), dx, dy+40);
 						//}
 						i++;
 					}
