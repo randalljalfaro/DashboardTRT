@@ -74,7 +74,7 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 					/*if(channels.length == 0 ){
 						channelsFilterInfo = channelsInfo;
 					}*/
-					console.log(channelsFilterInfo);
+					//console.log(channelsFilterInfo);
 
 					reqHandlers.properties_data.get(
 					{

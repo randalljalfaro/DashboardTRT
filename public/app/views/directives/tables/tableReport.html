@@ -1,0 +1,66 @@
+<div>
+	<div ng-repeat="error in errors" class="alert alert-danger">
+		{{error.msg}}
+	</div>
+	<div ng-repeat="error in errors" class="alert alert-danger">
+		{{error.msg}}
+	</div>
+	<br>
+
+	<div class="full" >
+		<properties-filter-by-month section-type="{{sectionType}}"></properties-filter-by-month>
+	</div>
+
+	<div class="full text-center"  ng-if="!editable && dataLength==0">
+		<h2>No hay datos para el criterio establecido.</h2>
+	</div>
+	<div ng-if="dataLength>0">
+		<div class="table-responsive table-striped  table-hover full text-center borders" ng-repeat="year in allYears">
+			<h3>{{year}}</h3>
+			<table class="table well" >
+				<thead>
+					<tr>
+						<th class="text-center">Canal</th>
+						<th ng-repeat="month in months" class="text-center">{{month}}</th>
+						<th class="text-center">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(channelId, channel) in channelsInfo">
+						<td class="text-center">{{channel.name}}</td>
+						<td ng-repeat="month in months" class="text-center">
+							<div>
+								${{tableData[year][channelId][$index].amount}}
+							</div>
+							<div>
+								{{tableData[year][channelId][$index].bedroom_count}}
+							</div>
+						</td>
+						<td>
+							<div ng-if="channelYearTotals[year][channelId]" class="text-center">${{formater.toNumberFormat(channelYearTotals[year][channelId].amount)}}</div>
+							<div ng-if="!channelYearTotals[year][channelId]" class="text-center">$0</div>
+							<div ng-if="channelYearTotals[year][channelId]" class="text-center">{{formater.toNumberFormat(channelYearTotals[year][channelId].bedroom_count)}}</div>
+							<div ng-if="!channelYearTotals[year][channelId]" class="text-center">0</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Total</td>
+						<td ng-repeat="month in months" class="text-center">
+							<div ng-if="monthlyTotals[year][$index].amount" >${{formater.toNumberFormat(monthlyTotals[year][$index].bedroom_count)}}</div>
+							<div ng-if="!monthlyTotals[year][$index].amount" >$0</div>
+							<div ng-if="monthlyTotals[year][$index].bedroom_count" >{{formater.toNumberFormat(monthlyTotals[year][$index].bedroom_count)}}</div>
+							<div ng-if="!monthlyTotals[year][$index].bedroom_count" >0</div>
+						</td>
+						<td>
+							<div ng-if="yearTotals[year].amount" class="text-center">${{formater.toNumberFormat(yearTotals[year].amount)}}</div>
+							<div ng-if="!yearTotals[year].amount" class="text-center">$0</div>
+							<div ng-if="yearTotals[year]" class="text-center">{{formater.toNumberFormat(yearTotals[year].bedroom_count)}}</div>
+							<div ng-if="!yearTotals[year]" class="text-center">0</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
