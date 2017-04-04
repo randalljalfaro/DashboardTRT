@@ -69,3 +69,6 @@
 .form_labels {
 	min-width: 50% !important;
 }
+.min_width{
+	min-width: 500px !important;
+}

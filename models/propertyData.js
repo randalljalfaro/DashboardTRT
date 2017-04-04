@@ -32,10 +32,14 @@ var PropertyData = module.exports = mongoose.model('PropertyData', PropertyDataS
 
 
 module.exports.findPropertyData = function(
-	propertyId, channels, fromMonth, fromYear, toMonth, toYear, callback){
+	properties, channels, fromMonth, fromYear, toMonth, toYear, callback){
 	var channelsQuery = [];
 	for (var i = 0; i<channels.length; i++) {
 		channelsQuery.push(new ObjectIdConst(channels[i]));
+	}
+	var propertiesQuery = [];
+	for (var i = 0; i<properties.length; i++) {
+		propertiesQuery.push(new ObjectIdConst(properties[i]));
 	}
 	/*
 	console.log("****************************");
@@ -109,7 +113,9 @@ module.exports.findPropertyData = function(
 		PropertyData.aggregate([
 		{
 			$match: {
-				property : new ObjectIdConst(propertyId),
+				property : {
+					$in : propertiesQuery
+				},
 				channel : {
 					$in : channelsQuery
 				},

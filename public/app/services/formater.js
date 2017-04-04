@@ -10,7 +10,7 @@ app.factory('formater', function() {
 			decimals = toFormatMilis(arrayStr[1]);
 		}
 		if(decimals!=null){
-			return units+","+decimals;
+			return units+","+decimals.split(0, 2);
 		}
 		else return units;
 	}

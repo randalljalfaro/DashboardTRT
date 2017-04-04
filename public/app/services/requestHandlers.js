@@ -100,9 +100,7 @@ app.factory('requestHandlers', function($http) {
 			},
 			data: query
 		}
-
-		if(query.propertyId)
-			$http(req).success(successCallback).error(errorCallback);
+		$http(req).success(successCallback).error(errorCallback);
 	}
 	function update_properties_data(data, successCallback, errorCallback){
 		var req = {

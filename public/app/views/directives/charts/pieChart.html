@@ -12,7 +12,7 @@
 
 	<div ng-if="config && config.data && config.data.length>0"  class="full text-center borders">
 		<h2 class="well">{{title}}</h2>
-		<div ng-repeat="data in config.data" class="half rounded borders text-center spaces">
+		<div ng-repeat="data in config.data" class="half rounded borders text-center spaces min_width">
 			<canvas id="pie" class="chart chart-pie  rounded"
 			chart-data="data" chart-labels="config.labels[$index]" 
 			chart-options="config.options[$index]" chart-colors="config.options[$index].colors"></canvas> 

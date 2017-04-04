@@ -10,6 +10,7 @@ app.directive('tableEdit',
       },
       templateUrl: '/app/views/directives/tables/tableEdit.html',
       controller: ['$scope', function($scope) {
+        $scope.filterType = 'single';
         $scope.formater = formater;
         $scope.filterCallback = filterCallback;
         $scope.editing = {};
@@ -61,7 +62,7 @@ app.directive('tableEdit',
           reqHandlers.properties_data.update(
             data, 
             function(response){
-              $scope.reloadData($scope.propertySelected);
+              $scope.reloadData();
               $scope.editing[year][channelId][numMonth] = false;
               alert("Guardado exitoso.");
             }, 
@@ -70,13 +71,11 @@ app.directive('tableEdit',
             });
         }
 
-        function filterCallback(data, properties, channels){
+        function filterCallback(data, properties, channelsFilterInfo){
           if(data){
-            $scope.propertySelected = properties;
+            $scope.propertySelected = properties[0];
             $scope.dataLength = data.length;
-            $scope.dataLength = data.length;
-            //$scope.channelsLength = channels.length;
-            $scope.channelsInfo = channels;
+            $scope.channelsInfo = channelsFilterInfo;
 
             var config = chartDataFactory.groupForTableEdit(data);
 
@@ -93,7 +92,7 @@ app.directive('tableEdit',
           }
 
           for(var year in $scope.editing){
-            for(var channelId in channels){
+            for(var channelId in channelsFilterInfo){
               $scope.editing[year][channelId] = {};
               for(var numMonth=0; numMonth<12; numMonth ++){
                 $scope.editing[year][channelId][numMonth] = false;

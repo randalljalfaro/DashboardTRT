@@ -9,89 +9,73 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 				fromYear : (new Date().getFullYear())+"",
 				toYear :  (new Date().getFullYear())+"",
 				channelsSelected : {},
-				propertyId:null
+				propertiesSelected : {}
 			};
+			var channelsInfo = {};
+			$scope.years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
+			$scope.property_data = [];
 			$scope.channels = [];
-
 			$scope.properties = [];
+			$scope.reloadData =  reloadData;
+
+
+			reqHandlers.channels.get(
+				function (response){
+					for(var i in response.data){
+						var ch = response.data[i];
+						channelsInfo[ch._id] = ch;
+						$scope.channels.push(ch);
+					}
+				}, function(){});
+
 			reqHandlers.properties.get(
 				{type:$scope.sectionType},
 				function (response){
 					$scope.properties = response;
 					if($scope.properties && $scope.properties.length > 0){
 						$scope.filterData.propertyId = $scope.properties[0]._id;
-						updatePropertyId();
+						reloadData();
 					}
 				},
 				function(response){
 					alert("Error al cargar los datos de las propiedades.");
 				});
 
-			var channelsInfo = {};
-			reqHandlers.channels.get(
-				function (response){
-					for(var i in response.data){
-						var ch = response.data[i];
-						channelsInfo[ch._id] = ch;
-					}
-				}, function(){});
-
-			$scope.property_data = [];
-
-			$scope.years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
-
-
-			$scope.$watch('filterData.propertyId',function(){
-				updatePropertyId();
-			});
-			$scope.$watch('filterData.channelId', function(){
-				reloadData($scope.filterData.propertyId);
-			});
-
-
-			function updatePropertyId(){
-				for(var property in $scope.properties){
-					var prop = $scope.properties[property];
-					if(prop._id == $scope.filterData.propertyId){
-						$scope.channels = prop.channels;
-						reloadData(prop);
+			function reloadData(){
+				var channels = [];
+				var properties = [];
+				var channelsFilterInfo = {};
+				for(var channel in $scope.filterData.channelsSelected){
+					if($scope.filterData.channelsSelected[channel]){
+						channels.push(channel);
+						channelsFilterInfo[channel] = channelsInfo[channel];
 					}
 				}
-			}
-
-			$scope.reloadData =  reloadData;
-
-			function reloadData(property){
-				if(property){
-					var channels = [];
-					var channelsFilterInfo = {};
-					for(var channel in $scope.filterData.channelsSelected){
-						if($scope.filterData.channelsSelected[channel]){
-							channels.push(channel);
-							channelsFilterInfo[channel] = channelsInfo[channel];
+				if( $scope.filterType != 'single'){
+					for(var property in $scope.filterData.propertiesSelected){
+						if($scope.filterData.propertiesSelected[property]){
+							properties.push(property);
 						}
 					}
-					/*if(channels.length == 0 ){
-						channelsFilterInfo = channelsInfo;
-					}*/
-					//console.log(channelsFilterInfo);
-
-					reqHandlers.properties_data.get(
-					{
-						propertyId : $scope.filterData.propertyId,
-						channels : channels,
-						fromMonth : 0,
-						fromYear : $scope.filterData.fromYear,
-						toMonth : 12,
-						toYear : $scope.filterData.toYear
-					},
-					function(result){
-						$scope.filterCallback(result, $scope.filterData.propertyId, channelsFilterInfo, $scope.filterData);
-					},
-					function(result){
-						alert("Error al traer los datos de la propiedad desde el servidor.");
-					});
 				}
+				else{
+					properties.push($scope.filterData.propertyId);
+				}
+				reqHandlers.properties_data.get(
+				{
+					properties : properties,
+					channels : channels,
+					fromMonth : 0,
+					fromYear : $scope.filterData.fromYear,
+					toMonth : 12,
+					toYear : $scope.filterData.toYear
+				},
+				function(result){
+					$scope.filterCallback(result, properties, channelsFilterInfo, $scope.filterData);
+				},
+				function(result){
+					alert("Error al traer los datos de la propiedad desde el servidor.");
+				});
 			}
 		}]
 	};
