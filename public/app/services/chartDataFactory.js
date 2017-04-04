@@ -239,7 +239,7 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 			// Se sobreescriben los valores reales
 			for(var j in data[i].months){
 				var numMonth = data[i].months[j].number;
-				dataByChannel[channelId][data[i]._id.year][numMonth] = data[i].months[j][config.variable];
+				dataByChannel[channelId][data[i]._id.year][numMonth] += data[i].months[j][config.variable];
 			}
 		}
 		//console.log(dataByChannel);

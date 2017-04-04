@@ -19,7 +19,7 @@ app.directive('lineChart', ['chartDataFactory', function(chartDataFactory) {
       var lastFilterConfig = [];
       $scope.filterCallback = function(result, properties, channels, filterConfig){
         lastResult = result;
-        lastProperties = [properties];
+        lastProperties = properties;
         lastChannels = channels;
         lastFilterConfig = filterConfig;
         $scope.config = chartDataFactory.groupChannelByMonth(lastResult, $scope, lastProperties, lastChannels, lastFilterConfig);
