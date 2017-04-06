@@ -80,3 +80,7 @@
 .block {
 	display: inline-block;
 }
+
+.adaptToParent {
+	width: 100%; overflow: auto; 
+}
