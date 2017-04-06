@@ -1,4 +1,4 @@
-app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandlers) {
+app.directive('propertiesFilterByMonth', ["requestHandlers",'filterService', function(reqHandlers, filterService) {
 	return {
 		restrict: 'E',
 		transclude: true,
@@ -16,6 +16,8 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 			$scope.property_data = [];
 			$scope.channels = [];
 			$scope.properties = [];
+			filterService.pagination($scope, $scope.properties);
+			$scope.propertiesInfo = {};
 			$scope.reloadData =  reloadData;
 
 
@@ -35,6 +37,9 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 					if($scope.properties && $scope.properties.length > 0){
 						$scope.filterData.propertyId = $scope.properties[0]._id;
 						reloadData();
+					}
+					for(var i in response){
+						$scope.propertiesInfo[response[i]._id] = response[i];
 					}
 				},
 				function(response){
@@ -71,6 +76,7 @@ app.directive('propertiesFilterByMonth', ["requestHandlers", function(reqHandler
 					toYear : $scope.filterData.toYear
 				},
 				function(result){
+					filterService.pagination($scope, $scope.properties);
 					$scope.filterCallback(result, properties, channelsFilterInfo, $scope.filterData);
 				},
 				function(result){

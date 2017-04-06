@@ -1,18 +1,16 @@
 
 <div class="full">
-	<div class="full">
-		<properties-filter-by-month section-type="{{sectionType}}"></properties-filter-by-month>
-	</div>
+	<properties-filter-by-month class="oneThird" section-type="{{sectionType}}"></properties-filter-by-month>
 
-	<div ng-if="!config || !config.data || !config.data.length || config.data.length==0" class="table-responsive table-striped  full well">
+	<div ng-if="!config || !config.data || !config.data.length || config.data.length==0" class="well twoThirds spaces">
 		<div class="full text-center">
 			<h2>No hay datos para el criterio establecido.</h2>
 		</div>
 	</div>
 
-	<div ng-if="config && config.data && config.data.length>0"  class="full text-center borders">
-		<h2 class="well">{{title}}</h2>
-		<div ng-repeat="data in config.data" class="half rounded borders text-center spaces min_width">
+	<div ng-if="config && config.data && config.data.length>0"  class="text-center borders block twoThirds spaces">
+		<h2>{{title}}</h2>
+		<div ng-repeat="data in config.data" class="half rounded borders text-center spaces min_width half">
 			<canvas id="pie" class="chart chart-pie  rounded"
 			chart-data="data" chart-labels="config.labels[$index]" 
 			chart-options="config.options[$index]" chart-colors="config.options[$index].colors"></canvas> 

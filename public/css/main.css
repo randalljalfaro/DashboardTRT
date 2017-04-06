@@ -31,6 +31,11 @@
 	float: left;
 	display: inline-block;
 }
+.twoThirds{
+	width: 70% !important;
+	float: left;
+	display: inline-block;
+}
 .full {
 	width: 100% !important;
 	display: block;
@@ -71,4 +76,7 @@
 }
 .min_width{
 	min-width: 500px !important;
+}
+.block {
+	display: inline-block;
 }

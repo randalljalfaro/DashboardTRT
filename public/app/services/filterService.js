@@ -7,8 +7,8 @@ app.factory('filterService', ['$filter', function($filter) {
 			$scope.query = '';
 
 			$scope.getData = function () {
-				// https://docs.angularjs.org/api/ng/filter/filter
-				return $filter('filter')($scope.tableData, $scope.query);
+				// https://docs.angularjs.org/api/ng/filter/filter 
+				return $filter('filter')(tableData, $scope.query);
 			}
 
 			$scope.numberOfPages=function(){

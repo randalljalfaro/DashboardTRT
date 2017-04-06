@@ -242,7 +242,6 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 				dataByChannel[channelId][data[i]._id.year][numMonth] += data[i].months[j][config.variable];
 			}
 		}
-		//console.log(dataByChannel);
 
 		for(var channelId in dataByChannel){
 			var dataArray = [];

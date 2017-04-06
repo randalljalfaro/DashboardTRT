@@ -7,15 +7,12 @@
 	</div>
 	<br>
 
-	<div class="full" >
-		<!--filter-properties section-type={{sectionType}}></filter-properties-->
-		<properties-filter-by-month section-type="{{sectionType}}"></properties-filter-by-month>
-	</div>
+	<properties-filter-by-month  class="oneThird" section-type="{{sectionType}}"></properties-filter-by-month>
 
-	<div class="full text-center"  ng-if="!editable && dataLength==0">
+	<div class="text-center twoThirds"  ng-if="!editable && dataLength==0">
 		<h2>No hay datos para el criterio establecido.</h2>
 	</div>
-	<div ng-if="editable || (!editable && dataLength>0)">
+	<div class="twoThirds" ng-if="editable || (!editable && dataLength>0)">
 		<div class="table-responsive table-striped  table-hover full text-center borders" ng-repeat="year in allYears">
 			<h3>{{year}}</h3>
 			<table class="table well" >
@@ -43,7 +40,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<table  class="table well half spaces" ng-repeat="(numMonth,month) in months">
+			<table  class="table well spaces" ng-repeat="(numMonth,month) in months">
 				<caption class="text-center">{{month}}</caption>
 				<thead>
 					<tr>

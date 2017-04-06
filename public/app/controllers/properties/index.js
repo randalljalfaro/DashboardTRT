@@ -9,8 +9,6 @@ function PropertiesCtrl($scope, $http, $location, reqHandlers, filterService) {
 	var cbs = $scope.callbacks = {
 		delete : {
 			success : function(response){
-				//alert("Eliminición de usario ha sido exitoso");
-				//$location.path("/users");
 				refreshProperties();
 			},
 			error : function(response){
