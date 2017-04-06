@@ -2,13 +2,13 @@
 <div class="full">
 	<properties-filter-by-month class="oneThird" section-type="{{sectionType}}"></properties-filter-by-month>
 
-	<div ng-if="!config || !config.data || !config.data.length || config.data.length==0" class="well twoThirds spaces">
+	<div ng-if="!config || !config.data || !config.data.length || config.data.length==0" class="well twoThirds">
 		<div class="full text-center">
 			<h2>No hay datos para el criterio establecido.</h2>
 		</div>
 	</div>
 
-	<div ng-if="config && config.data && config.data.length>0"  class="text-center borders block twoThirds spaces">
+	<div ng-if="config && config.data && config.data.length>0"  class="text-center borders block twoThirds">
 		<h2>{{title}}</h2>
 		<div ng-repeat="data in config.data" class="half rounded borders text-center spaces min_width half">
 			<canvas id="pie" class="chart chart-pie  rounded"

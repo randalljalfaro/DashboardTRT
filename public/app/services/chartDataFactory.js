@@ -354,7 +354,7 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 				position : "left",
 				fullWidth:true,
 				labels : {
-					fontSize:25,
+					fontSize:22,
 					padding: 20,
 					fontColor:"#000"
 				}
@@ -366,7 +366,7 @@ app.factory('chartDataFactory', ['formater', function(formater) {
 				ctx = chartInstance.ctx;
 				chartAux = this.chart;
 
-				ctx.font = '25px Arial';
+				ctx.font = '22px Arial';
 				ctx.textAlign = "center";
 				ctx.fillStyle = "#000000";
 

@@ -6,6 +6,14 @@
 			<option ng-repeat="property in properties" value="{{property._id}}">{{property.name}} </option>
 		</select>
 	</div>
+	<div ng-if="filterType != 'single'" class="well">
+		<label>Propiedades eleccionadas</label>
+		<br/>
+		<div ng-if="selected" ng-repeat="(propertyId, selected) in filterData.propertiesSelected">
+			{{propertiesInfo[propertyId].name}}
+			<br/>
+		</div>
+	</div>
 	<div ng-if="filterType != 'single'" class="form-group well">
 		<label>Propiedades</label>
 		<br/>
@@ -27,14 +35,6 @@
 			<button ng-disabled="currentPage >= getData().length/(pageSize - 1)" ng-click="currentPage=currentPage+1">
 				Siguiente
 			</button>
-		</div>
-	</div>
-	<div ng-if="filterType != 'single'" class="well">
-		<label>Propiedades eleccionadas</label>
-		<br/>
-		<div ng-if="selected" ng-repeat="(propertyId, selected) in filterData.propertiesSelected">
-			{{propertiesInfo[propertyId].name}}
-			<br/>
 		</div>
 	</div>
 	<div class="form-group well">
