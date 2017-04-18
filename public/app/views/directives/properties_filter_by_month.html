@@ -7,7 +7,7 @@
 		</select>
 	</div>
 	<div ng-if="filterType != 'single'" class="well">
-		<label>Propiedades eleccionadas</label>
+		<label>Propiedades seleccionadas</label>
 		<br/>
 		<div ng-if="selected" ng-repeat="(propertyId, selected) in filterData.propertiesSelected">
 			{{propertiesInfo[propertyId].name}}
@@ -44,6 +44,7 @@
 			<input type="checkbox" ng-model="filterData.channelsSelected[channel._id]"  ng-change="reloadData()" >
 			<!--ng-init="data.channelsSelected[channel._id]=true"-->
 			{{channel.name}}
+			<br/>
 		</span>
 		<br/>
 	</div>

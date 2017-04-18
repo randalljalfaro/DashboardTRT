@@ -22,7 +22,7 @@ router.post('/get', authManager.ensureAuthenticated, function(req, res){
 	var toYear = 2019;
 	var propertyId = "58a6e7e91ab59f4e0631a9e9";
 	var channelId = "sfjkgiushifgusdjkfnj";*/
-
+ 
 	var errors = null;
 	
 	if(errors){

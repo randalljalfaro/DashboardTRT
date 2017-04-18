@@ -1,18 +1,19 @@
-app.directive('propertiesFilterByMonth', ["requestHandlers",'filterService', function(reqHandlers, filterService) {
+var filterData = {
+	fromYear : (new Date().getFullYear())+"",
+	toYear :  (new Date().getFullYear())+"",
+	channelsSelected : {},
+	propertiesSelected : {}
+};
+app.directive('propertiesFilterByMonth', ["requestHandlers",'filterService', '$rootScope', function(reqHandlers, filterService, $rootScope) {
 	return {
 		restrict: 'E',
 		transclude: true,
 		scope: false,
 		templateUrl: '/app/views/directives/properties_filter_by_month.html',
 		controller: ['$scope', function($scope) {
-			$scope.filterData = {
-				fromYear : (new Date().getFullYear())+"",
-				toYear :  (new Date().getFullYear())+"",
-				channelsSelected : {},
-				propertiesSelected : {}
-			};
+			$scope.filterData = filterData;
 			var channelsInfo = {};
-			$scope.years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
+			$scope.years = [2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020];
 			$scope.property_data = [];
 			$scope.channels = [];
 			$scope.properties = [];
